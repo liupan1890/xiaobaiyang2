@@ -1,6 +1,6 @@
 # 6盘小白羊 第二版
 
-开饭中，预计10月底上传，UI开源
+开饭中，开源代码已上传  [win预览版 https://wws.lanzous.com/b01npsg8h](https://wws.lanzous.com/b01npsg8h)  仅供尝鲜
 
 ### 新版介绍
 
