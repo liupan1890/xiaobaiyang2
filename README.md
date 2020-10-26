@@ -1,7 +1,9 @@
 # 6盘小白羊 第二版
 
-开饭中，开源代码已上传  [win预览版 https://wws.lanzous.com/b01npsg8h](https://wws.lanzous.com/b01npsg8h)  仅供尝鲜
-正在适配linux版，之后是操作教程，之后是mac版，已经在很努力地开发了，遇到BUG发Issue
+开饭中，开源代码已上传  [win预览版10月26日22点 https://wws.lanzous.com/b01npsg8h](https://wws.lanzous.com/b01npsg8h)  仅供尝鲜
+正在适配mac版，已经在很努力地开发了，遇到BUG发Issue
+
+[更新日志](ChangeLog.txt)
 
 ### 新版介绍
 
