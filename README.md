@@ -1,13 +1,16 @@
 # 6盘小白羊 第二版
 
-开饭中，开源代码已上传  [win预览版10月26日22点 https://wws.lanzous.com/b01npsg8h](https://wws.lanzous.com/b01npsg8h)  仅供尝鲜
-正在适配mac版，已经在很努力地开发了，遇到BUG发Issue
+开饭中，开源代码已上传  
+
+[win预览版10月27日17点40 https://wws.lanzous.com/b01npsg8h](https://wws.lanzous.com/b01npsg8h)  仅供尝鲜,升级时直接替换旧文件即可  
+
+正在适配mac版，已经在很努力地开发了，遇到BUG发Issue，装了一天黑苹果，真费劲。。。
 
 [更新日志](ChangeLog.txt)
 
 ### 新版介绍
 
-采用vue开发界面，go开发后台服务程序。无需安装，启动后调用浏览器显示UI和操作。理论上支持win/linux/mac全平台，支持远程管理(比如linux上安装，win远程操作)
+采用vue+antd开发UI界面，go开发后台服务程序。无需安装，启动后调用浏览器显示UI和操作。理论上支持win/linux/mac全平台，支持远程管理  
 
 ### 版权声明
 
