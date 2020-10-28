@@ -2,7 +2,7 @@
 
 开饭中，开源代码已上传  
 
-[win预览版10月28日23点10 https://wws.lanzous.com/b01npsg8h](https://wws.lanzous.com/b01npsg8h)  仅供尝鲜,升级时直接替换旧文件即可  
+[10月28日23点10 https://wws.lanzous.com/b01npsg8h](https://wws.lanzous.com/b01npsg8h)  仅供尝鲜,升级时直接替换旧文件即可  
 
 截止28日，win、linux、mac 均已发布，接下来是完善功能（批量改名，上传功能，文件搜索），有建议的速提，再接下来要整RSS订阅功能，这是个大项目了。。。。  
 
