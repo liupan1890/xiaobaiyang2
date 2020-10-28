@@ -2,11 +2,17 @@
 
 开饭中，开源代码已上传  
 
-[win预览版10月27日17点40 https://wws.lanzous.com/b01npsg8h](https://wws.lanzous.com/b01npsg8h)  仅供尝鲜,升级时直接替换旧文件即可  
+[win预览版10月28日23点10 https://wws.lanzous.com/b01npsg8h](https://wws.lanzous.com/b01npsg8h)  仅供尝鲜,升级时直接替换旧文件即可  
 
-正在适配mac版，已经在很努力地开发了，遇到BUG发Issue，装了一天黑苹果，真费劲。。。
+截止28日，win、linux、mac 均已发布，接下来是完善功能（批量改名，上传功能），有建议的速提，再接下来要整RSS订阅功能，这是个大项目了。。。。  
 
-[更新日志](ChangeLog.txt)
+[更新日志](ChangeLog.txt)  
+#### 2020/10/28  
+1. Fix因为mime.TypeByExtension返回错误x-css导致的样式表不加载BUG 感谢@GodOfKiller  
+2. 发布macOS版本  
+3. 编写录制macOS系统安装使用教程  
+4. Fix种子转磁力时Safari获取不到文件名时崩溃  
+5. 适配mac系统，已下载文件的打开文件夹功能  
 
 ### 新版介绍
 
