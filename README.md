@@ -2,17 +2,24 @@
 
 开饭中，开源代码已上传  
 
-[10月28日23点10 https://wws.lanzous.com/b01npsg8h](https://wws.lanzous.com/b01npsg8h)  仅供尝鲜,升级时直接替换旧文件即可  
+[11月1日23点50 https://wws.lanzous.com/b01npsg8h](https://wws.lanzous.com/b01npsg8h)  仅供尝鲜,升级时直接替换旧文件即可  
+[11月1日23点50 https://wws.lanzous.com/b01nqc4gd](https://wws.lanzous.com/b01nqc4gd)  旧版链接备用
 
 截止28日，win、linux、mac 均已发布，接下来是完善功能（批量改名，上传功能，文件搜索），有建议的速提，再接下来要整RSS订阅功能，这是个大项目了。。。。  
 
 [更新日志](ChangeLog.txt)  
-#### 2020/10/28  
-1. Fix因为mime.TypeByExtension返回错误x-css导致的样式表不加载BUG 感谢@GodOfKiller  
-2. 发布macOS版本  
-3. 编写录制macOS系统安装使用教程  
-4. Fix种子转磁力时Safari获取不到文件名时崩溃  
-5. 适配mac系统，已下载文件的打开文件夹功能  
+#### 2020/11/1
+1. Fix更换排序图标更明显，增加文件名、文件大小、时间排序的提示
+2. Fix添加B站链接的提示
+3. Fix停止下载后下载速度可能继续更新的BUG
+4. Fix替换文件树的图标，从svg转为font，优化性能
+5. Fix下载中、已下载 文件的提示改为本地保存路径
+6. Fix已下载中,重复下载同一文件,只显示一条已下载记录的BUG
+7. Fix离线任务和回收站只显示最旧的500条记录的BUG
+8. Fix用户密码长度的限制
+9. Add每次下载都要求我选择保存位置的设置选项
+10. Add下载线程数的设置，更新提示
+11. Add文件树右键菜单,方便下载和删除操作
 
 ### 新版介绍
 
