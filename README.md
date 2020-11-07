@@ -74,7 +74,6 @@ PS. 左边文件夹树的右键菜单真的好用！！！
 /6盘小白羊版.exe     启动程序  
 /6panserver.exe     6盘服务程序  
 /VLC                附带的vlc播放器，用来在线预览视频  
-/AppData            数据文件夹  
 /AppData/www.db     html资源  
 /AppData/user.db    *用户数据（6盘账号信息，下载中，已下载，上传中，已上传列表数据），第一次启动后创建  
 /AppData/debug.log  *运行日志，第一次启动后创建  
