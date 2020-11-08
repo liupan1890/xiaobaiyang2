@@ -73,18 +73,18 @@ export default {
     },
   },
   methods: {
-    handleMenuClick: function() {},
+        handleMenuClick: function() {},
 
-    handleRssAddCancel: function() {
+        handleRssAddCancel: function() {
       this.modalLoading = false;
       this.ressaddError = "";
       this.$store.commit("UI/mShowModal", { name: "", data: {} });
     },
-    handleRssAddSave: function() {
+        handleRssAddSave: function() {
       this.modalLoading = true;
       this.modalLoading = false;
       this.$message.info("Rss订阅功能尚在开发中");
-    },
+          },
   },
 };
 </script>

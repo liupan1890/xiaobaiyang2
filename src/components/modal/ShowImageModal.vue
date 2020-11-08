@@ -46,8 +46,7 @@ export default {
     },
   },
   watch: {
-    
-    modaldata: function() {
+        modaldata: function() {
       if (this.$store.state.UI.modalname == "showimage") {
         if (!this.$store.state.UI.modaldata.key) this.$store.commit("UI/mShowModal", { name: "", data: {} });
         if (this.imageitem.key != this.$store.state.UI.modaldata.key) {
@@ -75,30 +74,28 @@ export default {
         return a.localeCompare(b);
       }
       for (var i = 0, minLen = Math.min(lista.length, listb.length); i < minLen; i++) {
-        var indexa = a.indexOf(lista[i]);
+                var indexa = a.indexOf(lista[i]);
         var indexb = b.indexOf(listb[i]);
-        var prefixa = a.substring(0, indexa);
+                var prefixa = a.substring(0, indexa);
         var prefixb = a.substring(0, indexb);
-        var stra = lista[i];
+                var stra = lista[i];
         var strb = listb[i];
-        var numa = parseInt(stra);
+                var numa = parseInt(stra);
         var numb = parseInt(strb);
-        if (indexa != indexb || prefixa != prefixb) {
+                if (indexa != indexb || prefixa != prefixb) {
           return a.localeCompare(b);
         } else {
-          if (stra === strb) {
-            if (i == minLen - 1) {
+                    if (stra === strb) {
+                        if (i == minLen - 1) {
               return a.substring(indexa).localeCompare(b.substring(indexb));
-            } 
-            else {
+            }             else {
               a = a.substring(indexa + stra.length);
               b = b.substring(indexa + stra.length);
             }
-          } 
-          else if (numa == numb) {
-            return strb.lastIndexOf(numb + "") - stra.lastIndexOf(numa + "");
+          }           else if (numa == numb) {
+                        return strb.lastIndexOf(numb + "") - stra.lastIndexOf(numa + "");
           } else {
-            return numa - numb;
+                        return numa - numb;
           }
         }
       }
@@ -115,7 +112,7 @@ export default {
     handleRefresh: function() {
       this.handleLoadImage();
     },
-    FindIndex: function() {
+        FindIndex: function() {
       let LEN = this.imagelist.length;
       let key = this.imageitem.key;
       this.imageindex = -1;
@@ -129,8 +126,7 @@ export default {
       if (this.imageindex >= 0) {
         this.imagepage = "[ " + (this.imageindex + 1) + "/" + LEN + " ]";
       } else {
-        this.imagepage = ""; 
-      }
+        this.imagepage = "";       }
     },
     handleGoLeft: function() {
       let index = this.imageindex;
@@ -150,8 +146,7 @@ export default {
       }
       this.$store.commit("UI/mShowModal", { name: "showimage", data: this.imagelist[index + 1] });
     },
-    
-    handleLoadImage: function() {
+        handleLoadImage: function() {
       this.modalLoading = true;
       this.$store.dispatch("Pan/aDownLink", this.imageitem).then((resp) => {
         if (resp.code != 0) {
@@ -169,8 +164,7 @@ export default {
         setTimeout(ftest, 500);
       });
     },
-    
-    handleCancel: function() {
+        handleCancel: function() {
       this.modalError = "";
       this.$store.commit("UI/mShowModal", { name: "", data: {} });
     },

@@ -1,15 +1,15 @@
 <template>
   <div class="dataMenu" v-bind:style="{ display: checkDisplay }">
-    <div class="MenuRow" style="padding:8px 18px 4px 18px">
+    <div class="MenuRow" style="padding: 8px 18px 4px 18px">
       <div class="desc">Rss订阅</div>
     </div>
     <div class="MenuRow Add">
       <a-button class="AddRss" icon="plus" @click="handleRssAdd">新增订阅</a-button>
     </div>
-    <div class="MenuRow" style="padding-left:18px">
+    <div class="MenuRow" style="padding-left: 18px">
       <div class="desc">我订阅的资源</div>
     </div>
-    <a-spin :spinning="rssLoading"> </a-spin>
+    <a-spin :spinning="rssLoading"></a-spin>
     <a-tree v-if="rssLoading == false" :treeData="rssList" :defaultExpandAll="true" :defaultExpandParent="true" :autoExpandParent="true" @select="handleSelectRss" :selectedKeys="rssSelected" class="ant-tree-directory rsstree">
       <a-icon slot="switcherIcon" type="down" />
       <template slot="custom" slot-scope="record">
@@ -32,38 +32,37 @@
 <script>
 export default {
   name: "MenuRss",
-  data: function() {
+  data: function () {
     return {};
   },
   computed: {
-    checkDisplay: function() {
+    checkDisplay: function () {
       return this.$store.state.UI.pagename == "/rss" ? "flex" : "none";
     },
-    rssList: function() {
+    rssList: function () {
       return this.$store.state.Rss.rssList;
     },
-    rssLoading: function() {
+    rssLoading: function () {
       return this.$store.state.Rss.rssLoading;
     },
-    rssSelected: function() {
+    rssSelected: function () {
       return [this.$store.state.Rss.rssSelected.key];
     },
   },
   methods: {
-    handleRssAdd: function() {
+    handleRssAdd: function () {
       this.$store.commit("UI/mShowModal", { name: "addrss", data: {} });
     },
-    handleSelectRss: function(_, e) {
+    handleSelectRss: function (_, e) {
       let rsskey = e.node.dataRef.key;
-      this.$store.dispatch("Rss/aSelectRss", rsskey); 
-
+      this.$store.dispatch("Rss/aSelectRss", rsskey);
       let node = e.node;
       let item = node.dataRef;
       if (item.children && item.children.length > 0) {
-        if (node.expanded == false) node.onExpand(); 
+        if (node.expanded == false) node.onExpand();
       }
     },
-    handleDeleteRss: function(rsskey) {
+    handleDeleteRss: function (rsskey) {
       this.$store.dispatch("Rss/aDeleteRss", rsskey);
     },
   },
@@ -75,8 +74,8 @@ export default {
   display: flex;
   align-items: center;
   min-height: 24px;
-  flex-grow: 0; 
-  flex-shrink: 0; 
+  flex-grow: 0;
+  flex-shrink: 0;
 }
 .MenuRow.Add {
   height: 50px;
@@ -173,12 +172,12 @@ export default {
   justify-content: center;
   align-items: center;
   color: #bcb3b3;
-  flex-grow: 0; 
-  flex-shrink: 0; 
+  flex-grow: 0;
+  flex-shrink: 0;
   transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms !important;
 }
 .rsstree .ant-tree-title .midtitle {
-  flex: 1 1 auto; 
+  flex: 1 1 auto;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -196,8 +195,8 @@ export default {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  flex-grow: 0; 
-  flex-shrink: 0; 
+  flex-grow: 0;
+  flex-shrink: 0;
   opacity: 0;
   background-color: transparent;
   -webkit-appearance: none;

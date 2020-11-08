@@ -1,12 +1,12 @@
 <script>
 export default {
-  TestAjax: function(callback) {
-    setTimeout(function() {
+  TestAjax: function (callback) {
+    setTimeout(function () {
       callback({ code: 0, message: "success" });
     }, 3000);
   },
 
-  TestRssList: function(username) {
+  TestRssList: function (username) {
     if (username != "8") return [];
 
     return [
@@ -35,7 +35,8 @@ export default {
       },
     ];
   },
-  TestNewsList: function(username) {
+
+  TestNewsList: function (username) {
     let list = [];
 
     if (username != "8") return [];
@@ -56,7 +57,7 @@ export default {
     return list;
   },
 
-  TestNewsItem: function(newskey) {
+  TestNewsItem: function (newskey) {
     return {
       newsname: "文章标题" + newskey,
       key: "news-xxx",

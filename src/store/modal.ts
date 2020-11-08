@@ -1,9 +1,11 @@
+
 export interface IRssModel {
   key: string
   rssname: string
   licon: string
   newscount: string
 }
+
 export interface IRssNewsModel {
   key: string
   title: string
@@ -17,6 +19,7 @@ export interface IRssNewsItemLinkModel {
   title: string
   link: string
 }
+
 export interface IRssNewsItemModel {
   key: string
   title: string

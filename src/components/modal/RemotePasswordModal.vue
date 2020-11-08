@@ -1,6 +1,6 @@
 <template>
   <a-modal key="RemotePasswordModal" :visible="checkShowModal" title="" :footer="null" @cancel="handleCancel" class="appmodal">
-    <a-divider orientation="left"> 远程管理密码 </a-divider>
+    <a-divider orientation="left">远程管理密码</a-divider>
     <p class="code-box-meta"></p>
     <br />
     <div class="ant-row ant-form-item">
@@ -9,12 +9,10 @@
         <div class="ant-form-item-control">
           <span class="ant-form-item-children">
             <a-input-search placeholder="输入管理密码" @search="handleSave" v-model="dataPassword" spellcheck="false" draggable="false">
-              <a-button type="primary" :loading="modalLoading" slot="enterButton" style="line-height:20px">
-                确定
-              </a-button>
+              <a-button type="primary" :loading="modalLoading" slot="enterButton" style="line-height: 20px">确定</a-button>
             </a-input-search>
 
-            <span class="ant-form-explain" style="margin-left:10px;color: #f5222d;">{{ modalError }}</span>
+            <span class="ant-form-explain" style="margin-left: 10px; color: #f5222d">{{ modalError }}</span>
           </span>
         </div>
       </div>
@@ -26,7 +24,7 @@
 import md5 from "md5";
 export default {
   name: "RemotePasswordModal",
-  data: function() {
+  data: function () {
     return {
       modalLoading: false,
       modalError: "",
@@ -35,13 +33,12 @@ export default {
   },
   components: {},
   computed: {
-    checkShowModal: function() {
+    checkShowModal: function () {
       return this.$store.state.UI.modalname == "remotepassword";
     },
   },
   watch: {
-    
-    checkShowModal: function(newval) {
+    checkShowModal: function (newval) {
       if (newval == true) {
         this.dataPassword = "";
       } else {
@@ -52,14 +49,12 @@ export default {
     },
   },
   methods: {
-    
-    handleSave: function() {
+    handleSave: function () {
       this.modalLoading = true;
       localStorage["RemotePassword"] = md5(this.dataPassword);
       location.reload();
     },
-    
-    handleCancel: function() {
+    handleCancel: function () {
       this.modalError = "";
       this.$store.commit("UI/mShowModal", { name: "", data: {} });
     },

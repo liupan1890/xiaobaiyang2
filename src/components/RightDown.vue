@@ -1,12 +1,44 @@
 <template>
-  <div class="right" :style="{ display: checkDisplay }">
+  <div class="right" :style="{ display: checkDisplay }" oncontextmenu="return false;">
     <div class="rightHeadRow">
-      <a-button v-if="checkDoing" :loading="loading" icon="download" @click="handleDownStartAll"> 全部开始 </a-button>
-      <a-button v-if="checkDoing" :loading="loading" icon="pause" @click="handleDownStopAll"> 全部暂停 </a-button>
-      <a-button icon="delete" :loading="loading" @click="handleDownDeleteAll"> 全部删除 </a-button>
+      <a-button v-if="checkDoing" :loading="loading" icon="download" @click="handleDownStartAll">全部开始</a-button>
+      <a-button v-if="checkDoing" :loading="loading" icon="pause" @click="handleDownStopAll">全部暂停</a-button>
+      <a-button icon="delete" :loading="loading" @click="handleDownDeleteAll" title="只删除已暂停的">全部删除</a-button>
     </div>
-    <a-table :loading="downFileLoading" :columns="columns" :pagination="false" class="filetable"> </a-table>
-
+    <a-spin :spinning="downFileLoading">
+      <div class="filetable ant-table ant-table-scroll-position-left ant-table-layout-fixed ant-table-default ant-table-empty">
+        <div class="ant-table-content">
+          <div class="ant-table-body">
+            <table class="">
+              <colgroup>
+                <col />
+                <col style="width: 220px; min-width: 220px" />
+              </colgroup>
+              <thead class="ant-table-thead">
+                <tr>
+                  <th key="filename" class="ant-table-row-cell-ellipsis">
+                    <span class="ant-table-header-column">
+                      <div class="ant-table-column-sorters">
+                        <span class="ant-table-column-title">文件名</span>
+                        <span class="ant-table-column-title" style="padding-left: 24px">共{{ downFileCount }}条记录</span>
+                      </div>
+                    </span>
+                  </th>
+                  <th key="key" class="ant-table-row-cell-break-word ant-table-row-cell-last">
+                    <span class="ant-table-header-column">
+                      <div class="ant-table-column-sorters">
+                        <span class="ant-table-column-title">操作</span>
+                      </div>
+                    </span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="ant-table-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </a-spin>
     <RecycleScroller class="downitemlist" :items="downFileList" :item-size="60" key-field="key">
       <template v-if="downFileLoading == false && downFileList.length == 0" #before>
         <div class="scrollviewhead">
@@ -22,7 +54,7 @@
           <div class="iconfont">
             <span :class="item.fileicon"></span>
           </div>
-          <div class="title" :title="item.path">
+          <div class="title" :title="item.savepath">
             {{ item.filename }}
           </div>
           <div class="error">{{ item.error }}</div>
@@ -52,62 +84,47 @@
 
       <template #after>
         <div v-if="checkDoing && downFileCount > 499" class="scrollviewfoot">
-          当前仅显示了前499条，<span class="dcount">{{ downFileCount - 499 }}</span
-          >条记录稍后展示
+          当前仅显示了前499条，
+          <span class="dcount">{{ downFileCount - 499 }}</span>
+          条记录稍后展示
         </div>
-        <div v-if="checkDowned" class="scrollviewfoot">
-          仅显示最近7天的下载记录，更早的已被自动删除
-        </div>
+        <div v-if="checkDowned" class="scrollviewfoot">仅显示最近10天的下载/上传记录，更早的已被自动删除</div>
       </template>
     </RecycleScroller>
   </div>
 </template>
 
 <script>
-const columns = [
-  {
-    title: "文件名",
-    dataIndex: "filename",
-    ellipsis: true,
-  },
-  {
-    title: "操作",
-    dataIndex: "key",
-    width: "220px",
-  },
-];
-
 export default {
   name: "RightDown",
-  data: function() {
+  data: function () {
     return {
-      columns,
       selectedKey: "",
       loading: false,
     };
   },
   components: {},
   computed: {
-    checkDisplay: function() {
+    checkDisplay: function () {
       return this.$store.state.UI.pagename == "/down" ? "flex" : "none";
     },
-    downFileLoading: function() {
+    downFileLoading: function () {
       return this.$store.state.Down.downFileLoading;
     },
-    downFileList: function() {
+    downFileList: function () {
       return this.$store.state.Down.downFileList;
     },
-    downFileCount: function() {
+    downFileCount: function () {
       return this.$store.state.Down.downFileCount;
     },
-    downSelected: function() {
+    downSelected: function () {
       return this.$store.state.Down.downSelected;
     },
-    checkDoing: function() {
+    checkDoing: function () {
       return this.$store.state.Down.downSelected == "downing" || this.$store.state.Down.downSelected == "uploading";
     },
-    checkDowned: function() {
-      return this.$store.state.Down.downSelected == "downed";
+    checkDowned: function () {
+      return this.$store.state.Down.downSelected == "downed" || this.$store.state.Down.downSelected == "upload";
     },
   },
   methods: {
@@ -121,7 +138,7 @@ export default {
         if (resp.code != 0) {
           this.$message.error(resp.message);
         } else {
-          this.$store.dispatch("Down/aRefreshDown", "refresh"); 
+          this.$store.dispatch("Down/aRefreshDown", "refresh");
         }
       });
     },
@@ -132,7 +149,7 @@ export default {
         if (resp.code != 0) {
           this.$message.error(resp.message);
         } else {
-          this.$store.dispatch("Down/aRefreshDown", "refresh"); 
+          this.$store.dispatch("Down/aRefreshDown", "refresh");
         }
       });
     },
@@ -143,7 +160,7 @@ export default {
         if (resp.code != 0) {
           this.$message.error(resp.message);
         } else {
-          this.$store.dispatch("Down/aRefreshDown", "refresh"); 
+          this.$store.dispatch("Down/aRefreshDown", "refresh");
         }
       });
     },
@@ -172,7 +189,7 @@ export default {
         if (resp.code != 0) {
           this.$message.error(resp.message);
         } else {
-          this.$store.dispatch("Down/aRefreshDown", "refresh"); 
+          this.$store.dispatch("Down/aRefreshDown", "refresh");
         }
       });
     },
@@ -208,7 +225,7 @@ export default {
   text-align: center;
 }
 .downitemlist {
-  flex: 1 1 0%; 
+  flex: 1 1 0%;
   width: 100%;
   scroll-behavior: smooth;
 }
@@ -230,8 +247,8 @@ export default {
   justify-content: flex-start;
   align-items: center;
   color: rgba(0, 0, 0, 0.7);
-  flex-grow: 0; 
-  flex-shrink: 0; 
+  flex-grow: 0;
+  flex-shrink: 0;
   font-size: 16px;
   line-height: 28px;
   position: relative;
@@ -249,8 +266,8 @@ export default {
 .downitemlist .filename .title {
   overflow: hidden;
   cursor: default;
-  flex-grow: 0; 
-  flex-shrink: 1; 
+  flex-grow: 0;
+  flex-shrink: 1;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -273,30 +290,30 @@ export default {
 .downitemlist .filename .dian {
   font-size: 16px;
   font-weight: normal;
-  flex-grow: 0; 
-  flex-shrink: 0; 
+  flex-grow: 0;
+  flex-shrink: 0;
   padding: 0 14px;
   line-height: 28px;
 }
 .downitemlist .filename .size {
   font-size: 14px;
   font-weight: normal;
-  flex-grow: 0; 
-  flex-shrink: 0; 
+  flex-grow: 0;
+  flex-shrink: 0;
   padding-top: 2px;
   line-height: 26px;
 }
 .downitemlist .filename .space {
-  flex-grow: 1; 
-  flex-shrink: 1; 
+  flex-grow: 1;
+  flex-shrink: 1;
 }
 .downitemlist .filename .speed {
   color: rgba(0, 0, 0, 0.15);
   font-size: 24px;
   padding: 0 16px 0 0;
   text-align: right;
-  flex-grow: 0; 
-  flex-shrink: 0; 
+  flex-grow: 0;
+  flex-shrink: 0;
   width: 100px;
   overflow: hidden;
   line-height: 28px;
@@ -305,8 +322,8 @@ export default {
 .downitemlist .filename .progress {
   width: 100px;
   margin: 0 20px;
-  flex-grow: 0; 
-  flex-shrink: 0; 
+  flex-grow: 0;
+  flex-shrink: 0;
   line-height: 24px;
   padding-bottom: 4px;
 }
@@ -335,8 +352,8 @@ export default {
   padding: 0 8px;
   margin-right: 16px;
   cursor: pointer;
-  flex-grow: 0; 
-  flex-shrink: 0; 
+  flex-grow: 0;
+  flex-shrink: 0;
   background-color: transparent;
   -webkit-appearance: none;
   -webkit-tap-highlight-color: transparent;
@@ -389,8 +406,8 @@ export default {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  flex-grow: 0; 
-  flex-shrink: 0; 
+  flex-grow: 0;
+  flex-shrink: 0;
   background-color: transparent;
   -webkit-appearance: none;
   -webkit-tap-highlight-color: transparent;

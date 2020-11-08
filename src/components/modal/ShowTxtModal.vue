@@ -41,8 +41,7 @@ export default {
     },
   },
   watch: {
-    
-    modaldata: function() {
+        modaldata: function() {
       if (this.$store.state.UI.modalname == "showtxt") {
         if (!this.$store.state.UI.modaldata.key) this.$store.commit("UI/mShowModal", { name: "", data: {} });
 
@@ -72,11 +71,10 @@ export default {
       this.handleLoadIxt();
     },
 
-    
-    handleLoadIxt: function() {
+        handleLoadIxt: function() {
       this.modalLoading = true;
       this.$store.dispatch("Pan/aDownTxt", this.txtitem).then((resp) => {
-        this.modalLoading = false;
+                this.modalLoading = false;
         if (resp.code != 0) {
           if (resp.message.indexOf("500")) {
             resp.message = "6盘cdn回源拉取中，请稍后再试";
@@ -87,8 +85,7 @@ export default {
         }
       });
     },
-    
-    handleCancel: function() {
+        handleCancel: function() {
       this.modalError = "";
       this.$store.commit("UI/mShowModal", { name: "", data: {} });
     },

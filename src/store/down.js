@@ -13,6 +13,7 @@ const moduleDown = {
         mSelectDown(state, downkey) {
             state.downSelected = downkey;
             state.downFileList = [];
+            state.downFileCount = 0;
         },
         mLoadingFile(state, loading) {
             state.downFileLoading = loading;
@@ -52,11 +53,11 @@ const moduleDown = {
             if (userkey == "add") return;
             if (isrefresh == false) {
                 let subtime = new Date().getTime() / 1000 - this.downRefreshTime;
-                if (downkey == "downing" && subtime < 2) {
+                if (downkey == "downing" && subtime < 1) {
                     return;
                 } else if (downkey == "downed" && subtime < 8) {
                     return;
-                } else if (downkey == "uploading" && subtime < 2) {
+                } else if (downkey == "uploading" && subtime < 1) {
                     return;
                 } else if (downkey == "upload" && subtime < 8) {
                     return;

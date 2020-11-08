@@ -1,35 +1,25 @@
 <template>
   <div class="right" :style="{ display: checkDisplay }">
     <div class="rightHeadRow">
-      <a-button class="borderbtn" icon="sync" @click="handleClickRefresh"> 刷新 </a-button>
-
-      <a-dropdown v-if="showFile">
+      <a-button class="borderbtn" icon="sync" @click="handleClickRefresh">刷新</a-button>
+      <a-button v-if="showHuiShouZhan == false" class="borderbtn" icon="cloud-download" @click="handleClickLiXian">离线下载</a-button>
+      <a-button v-if="showFile" class="borderbtn" icon="folder-add" @click="handleClickAddDir" title="新建文件夹">新建</a-button>
+      <a-dropdown v-if="showFile" :disabled="uploadLoading">
         <a-menu slot="overlay" @click="handleClickUpload">
-          <a-menu-item key="uploadfile" disabled>
-            上传文件
-          </a-menu-item>
-          <a-menu-item key="uploaddir" disabled>
-            上传文件夹
-          </a-menu-item>
+          <a-menu-item key="uploadfile">上传文件</a-menu-item>
+          <a-menu-item key="uploaddir">上传文件夹</a-menu-item>
         </a-menu>
-        <a-button icon="upload" class="borderbtn"> 上传 </a-button>
+        <a-button :loading="uploadLoading" icon="upload" class="borderbtn">上传</a-button>
       </a-dropdown>
+      <a-input-search v-if="showFile" placeholder="搜索文件" style="width: 200px" @search="handleClickSearch" />
 
-      <a-button v-if="showFile" class="borderbtn" icon="folder-add" @click="handleClickAddDir">
-        新建文件夹
-      </a-button>
-
-      <a-button v-if="showHuiShouZhan == false" class="borderbtn" icon="cloud-download" @click="handleClickLiXian">
-        离线下载
-      </a-button>
-      <a-button v-if="showHuiShouZhan" class="borderbtn" icon="delete" @click="handleClickClearHuiShouZhan">
-        清空回收站
-      </a-button>
+      <a-button v-if="showLiXian" class="borderbtn" icon="delete" @click="handleClickLiXianClear('ok')" title="只删除记录,不会删除文件">删除所有已完成任务</a-button>
+      <a-button v-if="showHuiShouZhan" class="borderbtn" icon="delete" @click="handleClickClearHuiShouZhan">清空回收站</a-button>
       <div v-if="showHuiShouZhan" class="texttip">
         <a-badge dot>
           <a-icon type="notification" />
         </a-badge>
-        注意：回收站中的文件保留30天，30天后将自动删除
+        注意：回收站中的文件保留30天，30天后将自动删除，webdav中删除文件不进回收站
       </div>
 
       <div v-if="showFile && notice.title" class="texttip">
@@ -48,9 +38,53 @@
         <div :key="'fp-s-' + item.key" class="sep" v-if="item.sep">/</div>
       </template>
     </div>
-    <a-table :loading="panFileLoading" :columns="columns" :pagination="false" class="filetable" :sortDirections="['ascend', 'descend', 'ascend']" @change="handleTableChange"> </a-table>
+    <a-spin :spinning="panFileLoading">
+      <div class="filetable ant-table ant-table-scroll-position-left ant-table-layout-fixed ant-table-default ant-table-empty" oncontextmenu="return false;">
+        <div class="ant-table-content">
+          <div class="ant-table-body">
+            <table class="">
+              <colgroup>
+                <col />
+                <col style="width: 90px; min-width: 90px" />
+                <col style="width: 100px; min-width: 100px" />
+              </colgroup>
+              <thead class="ant-table-thead">
+                <tr>
+                  <th key="filename" class="ant-table-column-has-actions ant-table-column-has-sorters ant-table-column-sort ant-table-row-cell-ellipsis">
+                    <span class="ant-table-header-column">
+                      <div class="ant-table-column-sorters" title="点击按文件名排序，正序/倒序" @click="handleSorter('filename')">
+                        <span class="ant-table-column-title" :class="sorterclassfilename">文件名</span>
+                        <span class="iconfont" :class="sorterclassfilename"></span>
+                        <span class="ant-table-column-title" style="padding-left: 24px">共{{ panFileListCount }}条记录</span>
+                      </div>
+                    </span>
+                  </th>
+                  <th key="sizestr" class="ant-table-column-has-actions ant-table-column-has-sorters ant-table-row-cell-break-word">
+                    <span class="ant-table-header-column">
+                      <div class="ant-table-column-sorters" title="点击按文件大小排序，正序/倒序" @click="handleSorter('sizestr')">
+                        <span class="ant-table-column-title" :class="sorterclasssize">大小</span>
+                        <span class="iconfont" :class="sorterclasssize"></span>
+                      </div>
+                    </span>
+                  </th>
+                  <th key="datestr" class="ant-table-column-has-actions ant-table-column-has-sorters ant-table-row-cell-break-word ant-table-row-cell-last">
+                    <span class="ant-table-header-column">
+                      <div class="ant-table-column-sorters" title="点击按时间排序，正序/倒序" @click="handleSorter('datestr')">
+                        <span class="ant-table-column-title" :class="sorterclassdate">时间</span>
+                        <span class="iconfont" :class="sorterclassdate"></span>
+                      </div>
+                    </span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="ant-table-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </a-spin>
 
-    <RecycleScroller id="fileitemlist" class="fileitemlist" :items="panFileList" :item-size="50" key-field="key">
+    <RecycleScroller id="fileitemlist" class="fileitemlist" :items="panFileList" :item-size="50" key-field="key" oncontextmenu="return false;">
       <template v-if="panFileLoading == false && panFileList.length == 0" #before>
         <div class="scrollviewhead">
           <div class="iconfont">
@@ -64,7 +98,7 @@
           <div class="iconfont">
             <span :class="item.fileicon"></span>
           </div>
-          <div :class="{ title: true, canclick: item.canclick }" :title="item.title">
+          <div :class="{ title: true, canclick: item.canclick }" :title="item.path">
             <div @click="handleClickFileName(item)">{{ item.filename }}</div>
           </div>
           <div class="size">
@@ -81,7 +115,10 @@
             <div v-if="item.isimg" class="rightbtn" v-on:click="ShowImage(item)" title="预览图片">
               <span class="iconfont iconfile-img"></span>
             </div>
-            <div v-if="item.isvideo || item.isaudio" class="rightbtn" v-on:click="ShowVideo(item)" title="在线播放视频">
+            <div v-if="item.isaudio" class="rightbtn" v-on:click="ShowAudio(item)" title="在线播放音频">
+              <span class="iconfont iconfile-audio"></span>
+            </div>
+            <div v-if="item.isvideo" class="rightbtn" v-on:click="ShowVideo(item)" title="在线播放视频">
               <span class="iconfont iconfile-video"></span>
             </div>
             <div v-if="showFile && item.isdir == false" class="rightbtn" v-on:click="DownLink(item)" title="复制文件下载链接">
@@ -116,28 +153,6 @@
 </template>
 
 <script>
-const columns = [
-  {
-    title: "文件名",
-    dataIndex: "filename",
-    sorter: (a, b) => a.sizeint - b.sizeint,
-    ellipsis: true,
-  },
-  {
-    title: "大小",
-    dataIndex: "sizestr",
-    sorter: (a, b) => a.sizeint - b.sizeint,
-    width: "90px",
-  },
-  {
-    title: "上传时间",
-    dataIndex: "datestr",
-    sorter: (a, b) => a.dateint - b.dateint,
-    defaultSortOrder: "descend",
-    width: "100px",
-  },
-];
-
 function copyToClipboard(value) {
   var tempInput = document.createElement("input");
   tempInput.style = "position: absolute; left: -100px; top: -100px";
@@ -149,23 +164,35 @@ function copyToClipboard(value) {
 }
 export default {
   name: "Right6Pan",
-  data: function() {
+  data: function () {
     return {
-      columns,
       selectedKey: "",
-      sorterfield: "datestr",
-      sorterorder: "descend",
+      uploadLoading: false,
+
+      cachesortfile: ["filename", "ascend"],
+      cachesortlixian: ["datestr", "descend"],
+      cachesorthuishouzhan: ["datestr", "descend"],
+      cachesortsearch: ["datestr", "descend"],
+
+      sorterfield: "filename",
+      sorterorder: "ascend",
+      sorterclassfilename: "iconsort-ascend",
+      sorterclasssize: "iconsort",
+      sorterclassdate: "iconsort",
     };
   },
 
   computed: {
-    checkDisplay: function() {
+    checkDisplay: function () {
       return this.$store.state.UI.pagename == "/6pan" ? "flex" : "none";
     },
-    panFilePath: function() {
+    panFilePath: function () {
       return this.$store.state.Pan.panFilePath;
     },
-    panFileList: function() {
+    panFileListCount: function () {
+      return this.$store.state.Pan.panFileCount;
+    },
+    panFileList: function () {
       let arr = this.$store.state.Pan.panFileList;
       let sorterfield = this.sorterfield == "datestr" ? "dateint" : this.sorterfield == "sizestr" ? "sizeint" : "filename";
       let sorterorder = this.sorterorder;
@@ -177,34 +204,74 @@ export default {
         }
       } else {
         if (sorterorder == "ascend") {
-          return arr.sort(function(a, b) {
+          return arr.sort(function (a, b) {
             return a[sorterfield] - b[sorterfield];
           });
         } else {
-          return arr.sort(function(a, b) {
+          return arr.sort(function (a, b) {
             return b[sorterfield] - a[sorterfield];
           });
         }
       }
     },
-    panFileLoading: function() {
+    panFileLoading: function () {
       return this.$store.state.Pan.panFileLoading;
     },
-    notice: function() {
+    notice: function () {
       return this.$store.state.UI.noticeSelected;
     },
-    panDirSelecteddirkey: function() {
+
+    panDirSelecteddirkey: function () {
       return this.$store.state.Pan.panDirSelected.dirkey;
     },
 
-    showFile: function() {
-      return this.$store.state.Pan.panDirSelected.dirpath.startsWith("/");
+    showFile: function () {
+      let dirkey = this.$store.state.Pan.panDirSelected.dirkey;
+      return dirkey != "6pan-lixian" && dirkey != "6pan-huishouzhan";
     },
-    showLiXian: function() {
+    showLiXian: function () {
       return this.$store.state.Pan.panDirSelected.dirkey == "6pan-lixian";
     },
-    showHuiShouZhan: function() {
+    showHuiShouZhan: function () {
       return this.$store.state.Pan.panDirSelected.dirkey == "6pan-huishouzhan";
+    },
+  },
+  watch: {
+    panDirSelecteddirkey: function (newval, oldval) {
+      if (newval == oldval) return;
+      let oldfield = this.sorterfield;
+      let oldorder = this.sorterorder;
+
+      if (oldval == "6pan-lixian") {
+        this.cachesortlixian[0] = oldfield;
+        this.cachesortlixian[1] = oldorder;
+      } else if (oldval == "6pan-huishouzhan") {
+        this.cachesorthuishouzhan[0] = oldfield;
+        this.cachesorthuishouzhan[1] = oldorder;
+      } else if (oldval == "6pan-search") {
+        this.cachesortsearch[0] = oldfield;
+        this.cachesortsearch[1] = oldorder;
+      } else {
+        this.cachesortfile[0] = oldfield;
+        this.cachesortfile[1] = oldorder;
+      }
+
+      let sorterfield = "";
+      let sorterorder = "";
+      if (newval == "6pan-lixian") {
+        sorterfield = this.cachesortlixian[0];
+        sorterorder = this.cachesortlixian[1];
+      } else if (newval == "6pan-huishouzhan") {
+        sorterfield = this.cachesorthuishouzhan[0];
+        sorterorder = this.cachesorthuishouzhan[1];
+      } else if (newval == "6pan-search") {
+        sorterfield = this.cachesortsearch[0];
+        sorterorder = this.cachesortsearch[1];
+      } else {
+        sorterfield = this.cachesortfile[0];
+        sorterorder = this.cachesortfile[1];
+      }
+      this.handleSorter(sorterfield, sorterorder);
     },
   },
 
@@ -233,17 +300,13 @@ export default {
           if (stra === strb) {
             if (i == minLen - 1) {
               return a.substring(indexa).localeCompare(b.substring(indexb));
-            } 
-            else {
+            } else {
               a = a.substring(indexa + stra.length);
               b = b.substring(indexa + stra.length);
             }
-          } 
-          else if (numa == numb) {
-           
+          } else if (numa == numb) {
             return strb.lastIndexOf(numb + "") - stra.lastIndexOf(numa + "");
           } else {
-        
             return numa - numb;
           }
         }
@@ -273,17 +336,13 @@ export default {
           if (stra === strb) {
             if (i == minLen - 1) {
               return a.substring(indexa).localeCompare(b.substring(indexb));
-            } 
-            else {
+            } else {
               a = a.substring(indexa + stra.length);
               b = b.substring(indexa + stra.length);
             }
-          } 
-          else if (numa == numb) {
-            
+          } else if (numa == numb) {
             return strb.lastIndexOf(numb + "") - stra.lastIndexOf(numa + "");
           } else {
-          
             return numa - numb;
           }
         }
@@ -291,18 +350,18 @@ export default {
     },
 
     handleClickRefresh() {
-      this.$store.dispatch("Pan/aSelectDir", { dirkey: "refresh", dirpath: "refresh" }); 
+      this.$store.dispatch("Pan/aSelectDir", { dirkey: "refresh", dirpath: "refresh" });
     },
     handleClickFileItem(filekey) {
       this.selectedKey = filekey;
     },
     handleClickFilePath(key, path) {
-      this.$store.dispatch("Pan/aSelectDir", { dirkey: key, dirpath: path }); 
+      this.$store.dispatch("Pan/aSelectDir", { dirkey: key, dirpath: path });
     },
     handleClickFileName(item) {
       if (item.isfile) {
         if (item.isdir) {
-          this.$store.dispatch("Pan/aSelectDir", { dirkey: item.key, dirpath: item.path }); 
+          this.$store.dispatch("Pan/aSelectDir", { dirkey: item.key, dirpath: item.path });
         } else if (item.isimg) {
           this.ShowImage(item);
         } else if (item.isaudio || item.isvideo) {
@@ -312,16 +371,47 @@ export default {
         }
       }
     },
-    handleTableChange(pagination, filters, sorter) {
-      if (!pagination && !filters) {
-        console.log(pagination, filters);
+    handleSorter(sorter, order) {
+      if (order) {
+        this.sorterorder = order;
+      } else {
+        this.sorterorder = this.sorterorder == "descend" ? "ascend" : "descend";
       }
-      this.sorterfield = sorter.field;
-      this.sorterorder = sorter.order;
+      this.sorterfield = sorter;
+
+      if (this.sorterfield == "filename") {
+        this.sorterclassfilename = this.sorterorder == "descend" ? "iconsort-descend" : "iconsort-ascend";
+        this.sorterclasssize = "iconsort";
+        this.sorterclassdate = "iconsort";
+      } else if (this.sorterfield == "sizestr") {
+        this.sorterclassfilename = "iconsort";
+        this.sorterclasssize = this.sorterorder == "descend" ? "iconsort-descend" : "iconsort-ascend";
+        this.sorterclassdate = "iconsort";
+      } else if (this.sorterfield == "datestr") {
+        this.sorterclassfilename = "iconsort";
+        this.sorterclasssize = "iconsort";
+        this.sorterclassdate = this.sorterorder == "descend" ? "iconsort-descend" : "iconsort-ascend";
+      }
     },
-    handleClickUpload() {
-      this.$message.info("此功能开发中。。。");
+    handleClickUpload(e) {
+      let key = e.key;
+      if (this.$store.state.Pan.panDirSelected.dirkey == "6pan-search") {
+        this.$message.error("请先切换到一个网盘文件夹，再点击上传");
+        return;
+      }
+      this.uploadLoading = true;
+      this.$store.dispatch("Pan/aUploadSelect", key).then((resp) => {
+        this.uploadLoading = false;
+        if (resp.code == 0) {
+          this.$store.commit("UI/mShowModal", { name: "upload", data: { ...this.$store.state.Pan.panDirSelected, ...resp } });
+        } else {
+          this.$message.error(resp.message);
+        }
+      });
       return false;
+    },
+    handleClickSearch(value) {
+      this.$store.dispatch("Pan/aSelectDir", { dirkey: "6pan-search", dirpath: value });
     },
     handleClickAddDir() {
       this.$store.commit("UI/mShowModal", { name: "adddir", data: {} });
@@ -334,14 +424,39 @@ export default {
       }
       this.$store.commit("UI/mShowModal", { name: "lixian", data: {} });
     },
+    handleClickLiXianClear(cmd) {
+      if (this.$store.state.User.userSelected.key == "add") {
+        this.$message.error("请先登录一个6盘账号");
+        return;
+      }
+      let hide = this.$message.loading("操作中，请耐心等待...", 0);
+      this.$store.dispatch("Pan/aClearLiXian", cmd).then((resp) => {
+        hide();
+        if (resp.code != 0) {
+          this.$message.error(resp.message);
+        } else {
+          this.$store.dispatch("Pan/aSelectDir", { dirkey: "refresh", dirpath: "refresh" });
+          if (cmd == "ok") {
+            this.$message.success("删除所有已完成任务成功");
+          }
+          if (cmd == "err") {
+            this.$message.success("删除所有已完成任务成功");
+          }
+        }
+      });
+    },
     handleClickClearHuiShouZhan() {
+      if (this.$store.state.User.userSelected.key == "add") {
+        this.$message.error("请先登录一个6盘账号");
+        return;
+      }
       let hide = this.$message.loading("操作中，请耐心等待...", 0);
       this.$store.dispatch("Pan/aClearTrash").then((resp) => {
         hide();
         if (resp.code != 0) {
           this.$message.error(resp.message);
         } else {
-          this.$store.dispatch("Pan/aSelectDir", { dirkey: "refresh", dirpath: "refresh" }); 
+          this.$store.dispatch("Pan/aSelectDir", { dirkey: "refresh", dirpath: "refresh" });
           if (resp.async) {
             this.$notification.open({
               message: "操作成功",
@@ -354,7 +469,7 @@ export default {
         }
       });
     },
-    ShowTxt: function(item) {
+    ShowTxt: function (item) {
       if (item.isfile && item.istxt) {
         if (item.sizeint < 524288) {
           this.$store.commit("UI/mShowModal", { name: "showtxt", data: item });
@@ -363,7 +478,7 @@ export default {
         }
       }
     },
-    ShowImage: function(item) {
+    ShowImage: function (item) {
       if (item.isfile && item.isimg) {
         if (item.sizeint < 31457280) {
           this.$store.commit("UI/mShowModal", { name: "showimage", data: item });
@@ -372,8 +487,8 @@ export default {
         }
       }
     },
-    ShowVideo: function(item) {
-      if (item.isvideo || item.isaudio) {
+    ShowAudio: function (item) {
+      if (item.isaudio) {
         if (item.sizeint < 16106127360) {
           let hide = this.$message.loading("操作中，请耐心等待...", 0);
           this.$store.dispatch("Pan/aDownLink", item).then((resp) => {
@@ -389,25 +504,46 @@ export default {
             }
           });
         } else {
-          this.$message.info("视频体积太大(>15GB)，暂不支持预览");
+          this.$message.info("音频体积太大(>15GB)，暂不支持预览");
         }
       }
     },
-    DownFile: function(item) {
-      let hide = this.$message.loading("操作中，请耐心等待...", 0);
-      this.$store.dispatch("Pan/aDownFile", item).then((resp) => {
-        hide();
-        if (resp.code != 0) {
-          this.$message.error(resp.message);
-        } else {
-          this.$message.success("操作成功，创建 " + resp.filecount + " 个文件的下载任务");
-        }
-      });
+    ShowVideo: function (item) {
+      if (item.isvideo) {
+        let hide = this.$message.loading("操作中，请耐心等待...", 0);
+        this.$store.dispatch("Pan/aDownLinkPreview", item).then((resp) => {
+          hide();
+          if (resp.code != 0) {
+            this.$message.error(resp.message);
+          } else {
+            this.$store.dispatch("Pan/aPotPlayer", resp.downlink).then((resp) => {
+              if (resp.code != 0) {
+                this.$message.error(resp.message);
+              }
+            });
+          }
+        });
+      }
     },
-    RenameFile: function(item) {
+    DownFile: function (item) {
+      if (this.$store.state.UI.ConfigSavePathEveryTime == true) {
+        this.$store.commit("UI/mShowModal", { name: "downfile", data: item });
+      } else {
+        let hide = this.$message.loading("操作中，请耐心等待...", 0);
+        this.$store.dispatch("Pan/aDownFile", item).then((resp) => {
+          hide();
+          if (resp.code != 0) {
+            this.$message.error(resp.message);
+          } else {
+            this.$message.success("操作成功，创建 " + resp.filecount + " 个文件的下载任务");
+          }
+        });
+      }
+    },
+    RenameFile: function (item) {
       this.$store.commit("UI/mShowModal", { name: "rename", data: item });
     },
-    DeleteFile: function(item) {
+    DeleteFile: function (item) {
       let hide = () => {};
       if (!item.islixian) hide = this.$message.loading("操作中，请耐心等待...", 0);
       this.$store.dispatch("Pan/aDeleteFile", item).then((resp) => {
@@ -415,7 +551,7 @@ export default {
         if (resp.code != 0) {
           this.$message.error(resp.message);
         } else {
-          this.$store.dispatch("Pan/aSelectDir", { dirkey: "refresh", dirpath: "refresh" }); 
+          this.$store.dispatch("Pan/aSelectDir", { dirkey: "refresh", dirpath: "refresh" });
           if (resp.async) {
             this.$notification.open({
               message: "操作成功",
@@ -436,18 +572,22 @@ export default {
         }
       });
     },
-    RecoverFile: function(item) {
+    RecoverFile: function (item) {
       let hide = this.$message.loading("操作中，请耐心等待...", 0);
       this.$store.dispatch("Pan/aRecoverFile", item).then((resp) => {
         hide();
         if (resp.code != 0) {
           this.$message.error(resp.message);
         } else {
-          this.$store.dispatch("Pan/aSelectDir", { dirkey: "refresh", dirpath: "refresh" }); 
-          let parentpath = item.path.substr(0, item.path.lastIndexOf("/"));
-          if (parentpath == "") parentpath = "/";
-          this.$store.dispatch("Pan/aRefresh", { dirkey: "", dirpath: parentpath }); 
-
+          this.$store.dispatch("Pan/aSelectDir", { dirkey: "refresh", dirpath: "refresh" });
+          let parentpath = item.path;
+          if (parentpath.indexOf("/") >= 0) {
+            parentpath = parentpath.substring(0, parentpath.lastIndexOf("/"));
+            if (parentpath == "") parentpath = "/";
+          } else {
+            parentpath = "/";
+          }
+          this.$store.dispatch("Pan/aModalSelectDir", { dirkey: "", dirpath: parentpath });
           if (resp.async) {
             this.$notification.open({
               message: "操作成功",
@@ -461,8 +601,8 @@ export default {
       });
     },
 
-    DownLink: function(item) {
-      if (item.isfile == false || item.isdir) return; 
+    DownLink: function (item) {
+      if (item.isfile == false || item.isdir) return;
       this.$store.dispatch("Pan/aDownLink", item).then((resp) => {
         if (resp.code != 0) {
           this.$message.error(resp.message);
@@ -477,15 +617,18 @@ export default {
             tsTime = tsTime / 60;
             this.$message.success("操作成功，已经复制文件的下载链接到剪切板，" + tsTime.toFixed(1) + "小时内有效");
           }
+          if (resp.isremote == true) {
+            this.$message.info("远程模式下警告：6盘限制下载IP必须和创建链接的IP一致，可能导致此链接被403");
+          }
         }
       });
     },
-    LiXianLink: function(item) {
+    LiXianLink: function (item) {
       copyToClipboard(item.textLink);
       this.$message.success("操作成功，已经复制离线链接到剪切板");
     },
 
-    CopytoFile: function(item) {
+    CopytoFile: function (item) {
       this.$store.commit("UI/mShowModal", { name: "copyto", data: item });
     },
   },
@@ -494,8 +637,8 @@ export default {
 
 <style>
 .rightHeadRow {
-  flex-grow: 0; 
-  flex-shrink: 0; 
+  flex-grow: 0;
+  flex-shrink: 0;
   width: 100%;
   overflow: hidden;
   height: 40px;
@@ -504,6 +647,28 @@ export default {
   display: flex;
   align-items: center;
 }
+.rightHeadRow input {
+  height: 24px;
+  line-height: 22px;
+  padding: 0 8px;
+  font-size: 14px;
+  border: 1px solid rgba(207, 86, 89, 0.4);
+}
+.rightHeadRow .ant-input-search {
+  margin-right: 12px;
+}
+.rightHeadRow .ant-input-suffix {
+  right: 2px;
+}
+.rightHeadRow .ant-input-suffix > i {
+  display: inline-block;
+  padding: 5px 8px;
+}
+.rightHeadRow .ant-input-suffix > i > svg > path {
+  color: #df5659;
+  fill: #df5659;
+}
+
 .texttip {
   font-size: 14px;
   color: rgba(49, 70, 89, 0.6);
@@ -511,10 +676,28 @@ export default {
 .texttip > a {
   margin-left: 4px;
 }
+.texttip > a:hover {
+  text-decoration: underline;
+}
+
+.gonggao.texttip {
+  top: 81px;
+  left: 120px;
+  right: 190px;
+  height: 43px;
+  padding: 11px 30px 11px 0;
+  text-align: center;
+  overflow: hidden;
+  word-break: keep-all;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  position: absolute;
+  z-index: 1;
+}
 
 .filepath {
-  flex-grow: 0; 
-  flex-shrink: 0; 
+  flex-grow: 0;
+  flex-shrink: 0;
   width: 90%;
   height: 40px;
   overflow: hidden;
@@ -526,16 +709,16 @@ export default {
   padding-left: 8px !important;
 }
 .filepath .sep {
-  flex-grow: 0; 
-  flex-shrink: 0; 
+  flex-grow: 0;
+  flex-shrink: 0;
   width: 10px;
   text-align: center;
   font-size: 12px;
   color: #bcb3b3;
 }
 .filepath .desc {
-  flex-grow: 0; 
-  flex-shrink: 1; 
+  flex-grow: 0;
+  flex-shrink: 1;
   flex-basis: auto;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -549,19 +732,19 @@ export default {
   background-color: rgba(0, 132, 255, 0.1);
 }
 .filepath .desc:first-child {
-  flex-grow: 0; 
-  flex-shrink: 0; 
+  flex-grow: 0;
+  flex-shrink: 0;
 }
 .filepath .desc:last-child {
-  flex-grow: 0; 
-  flex-shrink: 0; 
+  flex-grow: 0;
+  flex-shrink: 0;
 }
 </style>
 <style>
 .filetable {
   width: 100%;
-  flex-grow: 0; 
-  flex-shrink: 0; 
+  flex-grow: 0;
+  flex-shrink: 0;
   height: 45px;
   overflow: hidden;
   border-top: 1px solid #eef2f8 !important;
@@ -584,33 +767,26 @@ export default {
   border-radius: 0;
 }
 
-.filetable .ant-table-placeholder {
-  display: none !important;
-}
-
-.filetable i > svg > path {
+.filetable .ant-table-column-sorters .iconfont {
+  line-height: 32px;
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 30px;
   color: #928787;
-  fill: #928787;
 }
-.filetable i.on > svg > path {
-  color: #df5659;
-  fill: #df5659;
-}
-
-.filetable .ant-table-thead > tr > th .ant-table-column-sorter .ant-table-column-sorter-inner .ant-table-column-sorter-up,
-.filetable .ant-table-thead > tr > th .ant-table-column-sorter .ant-table-column-sorter-inner .ant-table-column-sorter-down {
-  font-size: 14px !important;
+.filetable .ant-table-column-sorters .iconsort-descend,
+.filetable .ant-table-column-sorters .iconsort-ascend {
+  color: #df5659 !important;
 }
 
-.filetable .ant-table-thead > tr > th .ant-table-column-sorter .ant-table-column-sorter-inner-full {
-  margin-top: -0.4em;
+.filetable .ant-table-column-sorters .ant-table-column-title::before {
+  display: none;
 }
 </style>
 <style>
 .fileitemlist {
-  flex: 1 1 0%; 
+  flex: 1 1 0%;
   width: 100%;
-  scroll-behavior: smooth;
 }
 
 .fileitemlist .filename {
@@ -621,8 +797,8 @@ export default {
   justify-content: space-between;
   align-items: center;
   color: rgba(0, 0, 0, 0.7);
-  flex-grow: 0; 
-  flex-shrink: 0; 
+  flex-grow: 0;
+  flex-shrink: 0;
   font-size: 14px;
   line-height: 28px;
   border-bottom: 1px solid #eef2f8 !important;
@@ -634,7 +810,7 @@ export default {
 }
 
 .fileitemlist .filename .title {
-  flex: 1 1 0%; 
+  flex: 1 1 0%;
   overflow: hidden;
   cursor: default;
 }
@@ -686,8 +862,8 @@ export default {
   padding: 0 8px;
   margin-right: 16px;
   cursor: pointer;
-  flex-grow: 0; 
-  flex-shrink: 0; 
+  flex-grow: 0;
+  flex-shrink: 0;
   background-color: transparent;
   -webkit-appearance: none;
   -webkit-tap-highlight-color: transparent;

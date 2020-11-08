@@ -15,7 +15,7 @@ function DefaultDirList() {
             key: "6pan-lixian",
             path: "6pan-lixian",
             dirname: "离线任务",
-            licon: "cloud",
+            licon: "iconcloud",
             isLeaf: true,
             scopedSlots: { title: "custom" },
         },
@@ -23,7 +23,15 @@ function DefaultDirList() {
             key: "6pan-huishouzhan",
             path: "6pan-huishouzhan",
             dirname: "回收站",
-            licon: "rest",
+            licon: "iconrest",
+            isLeaf: true,
+            scopedSlots: { title: "custom" },
+        },
+        {
+            key: "6pan-search",
+            path: "",
+            dirname: "搜索",
+            licon: "iconsearch",
             isLeaf: true,
             scopedSlots: { title: "custom" },
         },
@@ -31,7 +39,7 @@ function DefaultDirList() {
             key: "6pan-root",
             path: "/",
             dirname: "根目录",
-            licon: "home",
+            licon: "iconhome",
             scopedSlots: { title: "custom" },
             children: [],
         },
@@ -67,7 +75,6 @@ function DefaultFileItem(dirkey, sixitem) {
 
     let m = {
         filename: sixitem.name,
-        title: sixitem.name,
         sizestr: FormatSize(sixitem.size),
         sizeint: sixitem.size,
     };
@@ -75,7 +82,6 @@ function DefaultFileItem(dirkey, sixitem) {
     if (dirkey == "6pan-lixian") {
         m.key = sixitem.taskIdentity;
         m.path = sixitem.savePath;
-        m.title = sixitem.savePath;
         m.textLink = sixitem.textLink;
         m.datestr = FormatDate(new Date(sixitem.createTime), "YYYY-MM-DD");
         m.dateint = sixitem.createTime;
@@ -88,37 +94,37 @@ function DefaultFileItem(dirkey, sixitem) {
         let status = "";
         if (sixitem.status < 0) {
             status = "下载失败 ";
-            m.fileicon = "iconcloud-error"; //-1 下载失败
+            m.fileicon = "iconcloud-error";
         } else if (sixitem.status == 0) {
             status = "添加失败 ";
-            m.fileicon = "iconcloud-error"; //添加失败
+            m.fileicon = "iconcloud-error";
         } else if (sixitem.status == 100) {
             status = "排队中 ";
-            m.fileicon = "iconcloud-sync"; //排队中
+            m.fileicon = "iconcloud-sync";
         } else if (sixitem.status == 309) {
             status = "等待重试 ";
-            m.fileicon = "iconcloud-sync"; //重试
+            m.fileicon = "iconcloud-sync";
         } else if (sixitem.status == 310) {
             status = "错误 ";
-            m.fileicon = "iconcloud-error"; //重试
+            m.fileicon = "iconcloud-error";
         } else if (sixitem.status == 306 || sixitem.status == 307) {
             status = "失败 ";
-            m.fileicon = "iconcloud-error"; //重试2
+            m.fileicon = "iconcloud-error";
         } else if (sixitem.status == 400) {
             status = "地址失效 ";
-            m.fileicon = "iconcloud-error"; //重试
+            m.fileicon = "iconcloud-error";
         } else if (sixitem.status == 406 || sixitem.status == 407) {
             status = "自动重试 ";
-            m.fileicon = "iconcloud-sync"; //重试2
+            m.fileicon = "iconcloud-sync";
         } else if (sixitem.status > 300 && sixitem.status < 400) {
             status = "下载失败 ";
-            m.fileicon = "iconcloud-error"; //自己加的额外判断
+            m.fileicon = "iconcloud-error";
         } else if (sixitem.status == 1000) {
             status = "success";
-            m.fileicon = "iconcloud-success"; //下载完成
+            m.fileicon = "iconcloud-success";
         } else {
             status = "";
-            m.fileicon = "iconcloud-download"; //下载中
+            m.fileicon = "iconcloud-download";
         }
 
         if (status != "success") {
@@ -131,7 +137,6 @@ function DefaultFileItem(dirkey, sixitem) {
     } else if (dirkey == "6pan-huishouzhan") {
         m.key = sixitem.identity;
         m.path = sixitem.path;
-        m.title = sixitem.path;
         m.datestr = FormatDate(new Date(sixitem.createTime), "YYYY-MM-DD");
         m.dateint = sixitem.createTime;
         m.isdir = sixitem.directory;
@@ -275,6 +280,7 @@ function IsAudio(ext, mime) {
 function DefaultDownItem(downkey, downitem) {
 
 
+
     let m = {
         key: downitem.DownID,
         filename: downitem.name,
@@ -297,9 +303,11 @@ function DefaultDownItem(downkey, downitem) {
         m.active = false;
         m.fileicon = "icondesktop";
     } else if (downkey == "uploading") {
+        m.filename = downitem.path + "/" + downitem.name;
         m.fileicon = "iconupload";
         m.error = downitem.FailedMessage;
     } else if (downkey == "upload") {
+        m.filename = downitem.path + "/" + downitem.name;
         m.progress = 100;
         m.speedstr = "";
         m.active = false;
@@ -308,20 +316,98 @@ function DefaultDownItem(downkey, downitem) {
     return Object.freeze(m);
 }
 
-function DefaultLastSavePath() {
-    try {
-        if (localStorage) {
-            var p = localStorage["panLastSavePath"]
-            if (p && p != "") {
-                var o = JSON.parse(p);
-                if (o && o.dirkey && o.dirpath && o.dirname) return o;
+function DefaultUploadSelectItem(fileitem) {
+    let m = {
+        sizestr: FormatSize(fileitem.size),
+        sizeint: fileitem.size,
+        filepath: fileitem.path,
+        isdir: fileitem.isdir,
+    };
+
+    let ext = (fileitem.path.indexOf('.') >= 0 ? fileitem.path.substring(fileitem.path.lastIndexOf('.')).toLowerCase() : "");
+
+    if (m.isdir) {
+        m.fileicon = "iconfile-folder";
+    } else if (ext == ".exe") m.fileicon = "iconfile-exe";
+    else if (ext == ".torrent") m.fileicon = "iconfile-bt";
+    else if (";.c.cpp.java.htm.html.css.js.vue.php.aspx.shtml.asp.jsp.json.url".indexOf(ext) > 0) m.fileicon = "iconfile-html";
+    else if (ext == ".txt" || ext == ".md" || ext == ".markdown" || ext == ".xml") m.fileicon = "iconfile-txt";
+    else if (";.md5.ini.nfo.info.config.cfg.bat.sh.cmd.log.debug.go".indexOf(ext) > 0) m.fileicon = "iconfile-txt";
+
+    else if (ext == ".pdf") m.fileicon = "iconfile-pdf";
+    else if (";.ppt.pptx.pot.potx.pps.dps.dpt".indexOf(ext) > 0) m.fileicon = "iconfile-ppt";
+    else if (";.xls.xlt.xlsx.xltx.et.ett".indexOf(ext) > 0) m.fileicon = "iconfile-xsl";
+    else if (";.doc.docx.dot.dotx.wps.wpt.rtf".indexOf(ext) > 0) m.fileicon = "iconfile-doc";
+    else if (IsZiMu(ext) != "") {
+        m.fileicon = IsZiMu(ext);
+    } else if (IsZip(ext) != "") {
+        m.fileicon = IsZip(ext);
+    } else if (IsDisk(ext) != "") {
+        m.fileicon = IsDisk(ext);
+    } else if (IsVideo(ext, "") != "") {
+        m.fileicon = IsVideo(ext, "");
+        m.isvideo = true;
+    } else if (IsAudio(ext, "") != "") {
+        m.fileicon = IsAudio(ext, "");
+        m.isaudio = true;
+    } else if (IsImage(ext, "") != "") {
+        m.fileicon = IsImage(ext, "");
+        m.isimg = true;
+    } else m.fileicon = "iconfile-file";
+
+    m.istxt = m.fileicon == "iconfile-txt" || m.fileicon == "iconfile-html";
+
+    return Object.freeze(m);
+}
+
+function GetDir(panDirList, dirpath) {
+    if (dirpath.endsWith("/") == false) dirpath = dirpath + "/";
+    let _FilePath = function(parent, dirpath) {
+        if (!parent) return null;
+        let LEN = parent.length;
+        for (let i = 0; i < LEN; i++) {
+            let item = parent[i];
+            let itempath = item.path;
+            if (itempath.endsWith("/") == false) itempath = itempath + "/";
+            if (itempath == dirpath) return item;
+            if (dirpath.startsWith(itempath) && item.children && item.children.length > 0) {
+                return _FilePath(item.children, dirpath);
             }
         }
-    } catch {
-        return { dirkey: "6pan-root", dirpath: "/", dirname: "根目录" };
-    }
-    return { dirkey: "6pan-root", dirpath: "/", dirname: "根目录" };
+        return null;
+    };
+    let f = _FilePath([panDirList[panDirList.length - 1]], dirpath);
+    return f;
 }
+
+function GetAllParentDir(panDirList, dirpath) {
+    let path = [];
+    if (dirpath.endsWith("/") == false) dirpath = dirpath + "/";
+    let _FilePath = function(path, parent, dirpath) {
+        if (!parent) return;
+        let LEN = parent.length;
+        for (let i = 0; i < LEN; i++) {
+            let item = parent[i];
+            let itempath = item.path;
+            if (itempath.endsWith("/") == false) itempath = itempath + "/";
+            if (dirpath.startsWith(itempath)) {
+                path.push({ key: item.key, path: item.path, dirname: item.dirname, sep: dirpath != itempath, hasChild: item.children && item.children.length > 0 });
+                if (item.children && item.children.length > 0) {
+                    _FilePath(path, item.children, dirpath);
+                }
+            }
+        }
+    };
+    _FilePath(path, [panDirList[panDirList.length - 1]], dirpath);
+    return path
+}
+
+function GetAllParentDirPath(dirpath) {
+    if (!dirpath) return [""];
+    if (dirpath.endsWith("/") == false) dirpath = dirpath + "/";
+    return dirpath.split('/')
+}
+
 
 function dedupe(array) {
     return [...new Set(array)]
@@ -346,7 +432,6 @@ function FormatSize(size) {
         size = size * 10;
         string = "b";
     }
-    if (size > 30) return (Math.round(size) / 10).toFixed(0) + string;
     return (Math.round(size) / 10) + string;
 }
 
@@ -386,4 +471,4 @@ function FormatDate(date, format) {
     });
 }
 
-export { DefaultLastSavePath, DefaultUser, DefaultDirList, DefaultRssList, DefaultFileItem, DefaultDownItem, dedupe, FormatSize, FormatDate }
+export { DefaultUser, DefaultDirList, DefaultRssList, DefaultFileItem, DefaultDownItem, DefaultUploadSelectItem, GetDir, GetAllParentDir, GetAllParentDirPath, dedupe, FormatSize, FormatDate }

@@ -1,6 +1,6 @@
 <template>
-  <div class="dataMenu" :style="{ display: checkDisplay }">
-    <div class="MenuRow" style="padding:8px 18px 4px 18px">
+  <div class="dataMenu" :style="{ display: checkDisplay }" oncontextmenu="return false;">
+    <div class="MenuRow" style="padding: 8px 18px 4px 18px">
       <div class="desc">本地下载的文件</div>
     </div>
 
@@ -43,21 +43,21 @@ const treeData = [
 ];
 export default {
   name: "MenuDown",
-  data: function() {
+  data: function () {
     return { treeData };
   },
   computed: {
-    checkDisplay: function() {
+    checkDisplay: function () {
       return this.$store.state.UI.pagename == "/down" ? "flex" : "none";
     },
-    downSelected: function() {
+    downSelected: function () {
       return [this.$store.state.Down.downSelected];
     },
   },
   methods: {
     onSelectDown(_, e) {
       let downkey = e.node.dataRef.key;
-      this.$store.dispatch("Down/aSelectDown", downkey); 
+      this.$store.dispatch("Down/aSelectDown", downkey);
     },
   },
 };

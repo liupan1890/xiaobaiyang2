@@ -11,7 +11,7 @@
       版本升级:<span>{{ exeVer }} --> {{ serverVer }}</span>
     </div>
     <div class="verupdate">
-      下载地址:<a target="_blink" :href="serverVerUrl">http://{{ serverVerUrl }}</a>
+      下载地址:<a target="_blink" :href="serverVerUrl">{{ serverVerUrl }}</a>
     </div>
 
     <div class="verupdate">
@@ -47,8 +47,7 @@ export default {
   },
 
   methods: {
-    //关闭按钮
-    handleCancel: function() {
+        handleCancel: function() {
       this.$store.commit("UI/mShowModal", { name: "", data: {} });
     },
   },
@@ -62,7 +61,7 @@ export default {
   width: 100%;
   margin: 0 auto;
   text-align: left;
-  padding-left: 100px;
+  padding-left: 90px;
   padding-bottom: 8px;
 }
 </style>

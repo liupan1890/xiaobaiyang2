@@ -9,6 +9,7 @@ const moduleUi = {
         modaldata: {},
         loading: false,
         lixiantip: "",
+        webdav: "",
         copytotip: "",
         renamemultitip: "",
         notice: [{ url: "", title: "" }],
@@ -19,8 +20,12 @@ const moduleUi = {
 
         ConfigPlayerPath: "",
         ConfigSavePath: "",
+        ConfigSavePathEveryTime: false,
         ConfigRemotePassword: "",
         ConfigTaskCountMax: 3,
+        ConfigThreadCountMax: 10,
+        ConfigRunDownFinish: false,
+        ConfigUseVipVideoUrl: false,
         ConfigRunTimes: 0,
     }),
     mutations: {
@@ -36,11 +41,14 @@ const moduleUi = {
             state.loading = loading;
         },
 
-
-        mNotice(state, { pwd, savepath, playerpath, taskcount, runtimes, ver, verurl, exe, lixian, copyto, renamemulti, notice }) {
+        mNotice(state, { pwd, savepath, everytime, playerpath, taskcount, threadcount, runfinish, usevipvideo, runtimes, ver, verurl, exe, lixian, webdav, copyto, renamemulti, notice }) {
             state.ConfigPlayerPath = playerpath
             state.ConfigSavePath = savepath
+            state.ConfigSavePathEveryTime = everytime
             state.ConfigTaskCountMax = taskcount
+            state.ConfigThreadCountMax = threadcount
+            state.ConfigRunDownFinish = runfinish
+            state.ConfigUseVipVideoUrl = usevipvideo
             state.ConfigRunTimes = runtimes
             state.ConfigRemotePassword = pwd
 
@@ -49,6 +57,7 @@ const moduleUi = {
             state.exeVer = exe
             state.lixiantip = lixian
             state.copytotip = copyto
+            state.webdav = webdav
             state.renamemultitip = renamemulti
             state.notice = notice
             if (notice.length > 0) {
@@ -56,7 +65,6 @@ const moduleUi = {
             } else {
                 state.noticeSelected = { url: "", title: "" };
             }
-
             document.title = "6盘小白羊版 v" + exe;
         },
         mNoticeSelect(state) {
@@ -71,6 +79,9 @@ const moduleUi = {
                 }
                 state.noticeSelected = state.notice[0];
             }
+        },
+        mSettingSavePath(state, savepath) {
+            state.ConfigSavePath = savepath;
         },
 
     },
@@ -91,9 +102,17 @@ const moduleUi = {
         aSelectPlayerPath() {
             return CALLAPI({ cmd: "SettingSelectPlayer" });
         },
-        aSaveConfig(context, { pwd, savepath, playerpath, taskcount }) {
-            return CALLAPI({ cmd: "SettingSave", pwd, savepath, playerpath, taskcount });
-        }
+        aSaveConfig(context, { pwd, savepath, everytime, playerpath, taskcount, threadcount, runfinish, usevipvideo }) {
+            return CALLAPI({ cmd: "SettingSave", pwd, savepath, everytime, playerpath, taskcount, threadcount, runfinish, usevipvideo });
+        },
+        aSavePathConfig(context, { savepath }) {
+            return CALLAPI({ cmd: "SettingSavePath", savepath }).then(resp => {
+                if (resp.code == 0) {
+                    context.commit('mSettingSavePath', savepath);
+                }
+                return resp;
+            });
+        },
     },
 };
 

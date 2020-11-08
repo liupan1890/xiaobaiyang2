@@ -1,8 +1,8 @@
 <template>
   <a-modal key="UserEditModal" id="UserEditModal" :visible="checkShowModal" :footer="null" @cancel="handleCancel">
-    <a-tabs default-active-key="1" style="min-height:260px">
+    <a-tabs default-active-key="1" style="min-height:260px" @change="handleTabChange">
       <a-tab-pane key="1" tab="个人信息" :forceRender="true">
-        <a-form :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }" @submit="handleSubmit">
+        <a-form :label-col="{ span: 7 }" :wrapper-col="{ span: 12 }" @submit="handleSubmit">
           <a-form-item label="用户ID" style="margin:0">
             <span class="ant-form-text">
               {{ dataUserID }}
@@ -29,13 +29,13 @@
           <a-form-item label="用户名">
             <a-input v-model="dataUserName" spellcheck="false" />
           </a-form-item>
-          <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
-            <a-button type="primary" @click.stop="handleSaveUserName"> 修改 </a-button>
+          <a-form-item :wrapper-col="{ span: 12, offset: 7 }">
+            <a-button type="primary" @click.stop="handleSaveUserName">修改</a-button>
           </a-form-item>
         </a-form>
       </a-tab-pane>
       <a-tab-pane key="2" tab="修改密码" :forceRender="true">
-        <a-form :form="form2" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }" @submit="handleSubmit">
+        <a-form :form="form2" :label-col="{ span: 7 }" :wrapper-col="{ span: 12 }" @submit="handleSubmit">
           <a-form-item label="原登录密码">
             <a-input
               spellcheck="false"
@@ -45,10 +45,10 @@
                   rules: [
                     {
                       required: true,
-                      message: '请输入原登录密码(长6-14位)',
+                      message: '请输入原登录密码(长6-50位)',
                       whitespace: true,
                       min: 6,
-                      max: 14,
+                      max: 50,
                     },
                   ],
                 },
@@ -64,10 +64,10 @@
                   rules: [
                     {
                       required: true,
-                      message: '请输入新的登录密码(长6-14位)',
+                      message: '请输入新的登录密码(长6-50位)',
                       whitespace: true,
                       min: 6,
-                      max: 14,
+                      max: 50,
                     },
                   ],
                 },
@@ -75,8 +75,8 @@
             />
           </a-form-item>
 
-          <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
-            <a-button type="primary" @click.stop="handleSaveUserPassword"> 修改 </a-button>
+          <a-form-item :wrapper-col="{ span: 12, offset: 7 }">
+            <a-button type="primary" @click.stop="handleSaveUserPassword">修改</a-button>
           </a-form-item>
         </a-form>
       </a-tab-pane>
@@ -88,7 +88,7 @@
         </div>
         <a-form :label-col="{ span: 5 }" :wrapper-col="{ span: 18 }" @submit="handleSubmit">
           <a-form-item label="地址">
-            <a-input spellcheck="false" defaultValue="https://webdav.6pan.cn" />
+            <a-input spellcheck="false" :defaultValue="webdav" />
           </a-form-item>
           <a-form-item label="用户名" help="部分系统可能不支持中文和特殊字符">
             <a-input spellcheck="false" :value="dataUserName" />
@@ -115,9 +115,9 @@
         </ul>
       </a-tab-pane>
     </a-tabs>
-    <div class="ant-row ant-form-item">
-      <div class="ant-col ant-col-5 ant-form-item-label"></div>
-      <div class="ant-col ant-col-17 ant-form-item-control-wrapper">
+    <div class="ant-row ant-form-item" style="margin-bottom:0">
+      <div class="ant-col ant-col-7 ant-form-item-label"></div>
+      <div class="ant-col ant-col-15 ant-form-item-control-wrapper">
         <div class="ant-form-item-control">
           <span class="ant-form-explain" style="color: #f5222d;">{{ modalError }}</span>
         </div>
@@ -153,11 +153,13 @@ export default {
     userSelected: function() {
       return this.$store.state.User.userSelected;
     },
+    webdav: function() {
+      return this.$store.state.UI.webdav;
+    },
   },
 
   watch: {
-    
-    userSelected: function(newval) {
+        userSelected: function(newval) {
       if (newval) {
         let user = this.$store.state.User.userSelected;
         if (user && user.key) {
@@ -194,6 +196,9 @@ export default {
     },
   },
   methods: {
+    handleTabChange: function() {
+      this.modalError = "";
+    },
     handleSubmit: function() {
       return false;
     },
@@ -207,7 +212,7 @@ export default {
         })
         .then((resp) => {
           this.modalLoading = false;
-          if (resp.code == 0) {
+                    if (resp.code == 0) {
             this.$message.success("操作成功，用户名已更新");
           } else {
             this.modalError = resp.message;
@@ -227,7 +232,7 @@ export default {
             })
             .then((resp) => {
               this.modalLoading = false;
-              if (resp.code == 0) {
+                            if (resp.code == 0) {
                 this.$message.success("操作成功，登录密码已更新");
               } else {
                 this.modalError = resp.message;
@@ -237,8 +242,7 @@ export default {
       });
     },
 
-    
-    handleCancel: function() {
+        handleCancel: function() {
       this.modalError = "";
       this.$store.commit("UI/mShowModal", { name: "", data: {} });
     },

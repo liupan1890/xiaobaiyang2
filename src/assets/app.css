@@ -137,15 +137,13 @@ body {
 }
 
  ::-webkit-input-placeholder {
-    /* Chrome, Firefox, Opera, Safari 10.1+ */
     color: #ccc !important;
     opacity: 1;
-    /* Firefox */
 }
 
  ::-webkit-scrollbar {
-    width: 7px;
-    height: 7px;
+    width: 8px;
+    height: 8px;
 }
 
  ::-webkit-scrollbar-thumb {

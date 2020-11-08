@@ -45,6 +45,7 @@ export function FromBase64(b64str) {
     }
 }
 var authpwd = ""
+var lasterr = new Date().getTime() / 1000;
 export function CALLAPI(postdata) {
     if (authpwd == "") {
         authpwd = localStorage["RemotePassword"]
@@ -77,9 +78,12 @@ export function CALLAPI(postdata) {
             })
             .catch(function(error) {
                 if (error.message.indexOf('Network Error') >= 0) {
-                    message.error("无法连接到后台服务程序");
+                    if ((new Date().getTime() / 1000 - lasterr) > 3) {
+                        message.error("无法连接到后台服务程序");
+                        lasterr = new Date().getTime() / 1000;
+                    }
                 }
-                resolve({ code: -1, message: "网络错误" + error });
+                resolve({ code: -1, message: "无法连接到后台服务程序" + error });
             });
     });
 

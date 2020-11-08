@@ -1,17 +1,17 @@
 <template>
-  <div class="right" style="flex-direction: row;" :style="{ display: checkDisplay }">
+  <div class="right" style="flex-direction: row" :style="{ display: checkDisplay }" oncontextmenu="return false;">
     <div id="leftcontent" v-bind:style="{ width: leftcontentWidth + 'px' }">
       <div class="rightHeadRow">
-        <a-button icon="search"> 搜索 </a-button>
+        <a-button icon="search">搜索</a-button>
       </div>
-      <div class="MenuRow" style="height:40px;">
+      <div class="MenuRow" style="height: 40px">
         <div class="Title">{{ rssSelected.rssname }}</div>
-        <div class="desc" style="line-height: 24px;">
+        <div class="desc" style="line-height: 24px">
           {{ rssSelected.newscount }}
         </div>
       </div>
-      <div class="MenuRow" style="height: 8px;min-height:8px;"></div>
-      <a-spin :spinning="rssNewsLoading"> </a-spin>
+      <div class="MenuRow" style="height: 8px; min-height: 8px"></div>
+      <a-spin :spinning="rssNewsLoading"></a-spin>
       <RecycleScroller class="rssitemlist" :items="rssNewsList" :item-size="80" key-field="key">
         <template v-if="rssNewsLoading == false && rssNewsList.length == 0" #before>
           <div class="scrollviewhead">
@@ -28,10 +28,12 @@
             </div>
             <ul class="ant-list-item-action">
               <li class="rssitemdays" @click="handleClickRssNewsItem(item.key)">
-                <a-icon type="calendar" /><span>{{ item.days }}</span>
+                <a-icon type="calendar" />
+                <span>{{ item.days }}</span>
               </li>
               <li v-if="item.file">
-                <span title="被人成功离线过的文件即可秒传到你网盘里"> {{ item.miaochuan ? "秒传" : "离线" }} </span><em class="ant-list-item-action-split"></em>
+                <span title="被人成功离线过的文件即可秒传到你网盘里">{{ item.miaochuan ? "秒传" : "离线" }}</span>
+                <em class="ant-list-item-action-split"></em>
               </li>
             </ul>
           </div>
@@ -50,8 +52,10 @@
         <div class="rightHeadRow"></div>
         <div class="pagetitle">文章标题{{ rssNewsSelected.newsname }}</div>
         <div class="pagedesc">
-          更新时间{{ rssNewsSelected.newsdate }}<br />
-          原始链接{{ rssNewsSelected.newsurl }}<br />
+          更新时间{{ rssNewsSelected.newsdate }}
+          <br />
+          原始链接{{ rssNewsSelected.newsurl }}
+          <br />
         </div>
         <div class="pagelink">
           <ul>
@@ -73,68 +77,65 @@
 <script>
 export default {
   name: "RightRss",
-  data: function() {
+  data: function () {
     return {
       leftcontentWidth: 360,
       newsSelectedKey: "",
       editValue: "",
       toolbars: {
-        bold: true, // 粗体
-        italic: true, // 斜体
-        header: true, // 标题
-        strikethrough: true, // 中划线
-        mark: true, // 标记
-        quote: true, // 引用
-        ul: true, // 无序列表
-        link: true, // 链接
-        imagelink: true, // 图片链接
-        fullscreen: true, // 全屏编辑
-
-        subfield: true, // 单双栏模式
-        preview: true, // 预览
+        bold: true,
+        italic: true,
+        header: true,
+        strikethrough: true,
+        mark: true,
+        quote: true,
+        ul: true,
+        link: true,
+        imagelink: true,
+        fullscreen: true,
+        subfield: true,
+        preview: true,
       },
     };
   },
   components: {},
   computed: {
-    checkDisplay: function() {
+    checkDisplay: function () {
       return this.$store.state.UI.pagename == "/rss" ? "flex" : "none";
     },
-    rssNewsList: function() {
+    rssNewsList: function () {
       return this.$store.state.Rss.rssNewsList;
     },
-    rssNewsLoading: function() {
+    rssNewsLoading: function () {
       return this.$store.state.Rss.rssNewsLoading;
     },
-    rssSelected: function() {
+    rssSelected: function () {
       return this.$store.state.Rss.rssSelected;
     },
-    rssNewsSelected: function() {
+    rssNewsSelected: function () {
       return this.$store.state.Rss.rssNewsSelected;
     },
-    checkEdit: function() {
+    checkEdit: function () {
       return false;
-      //return this.$store.state.Rss.rssNewsSelected.key == "edit";
     },
-    checkPage: function() {
+    checkPage: function () {
       return false;
-      //return this.$store.state.Rss.rssNewsSelected.key != "" && this.$store.state.Rss.rssNewsSelected.key != "edit";
     },
   },
   methods: {
-    handleClickRssNewsItem: function(newskey) {
+    handleClickRssNewsItem: function (newskey) {
       this.newsSelectedKey = newskey;
-      this.$store.dispatch("Rss/aSelectNews", newskey); 
+      this.$store.dispatch("Rss/aSelectNews", newskey);
       var div = document.getElementById("rightcontent");
       if (div) div.scrollTop = 0;
     },
-    handleResizerDrag: function() {
+    handleResizerDrag: function () {
       let data = this;
       let resize = document.getElementById("midresize");
-      resize.onmousedown = function(e) {
+      resize.onmousedown = function (e) {
         let startX = e.clientX;
         resize.left = resize.offsetLeft;
-        document.onmousemove = function(e) {
+        document.onmousemove = function (e) {
           let endX = e.clientX;
           let moveLen = endX - startX;
           startX = endX;
@@ -143,7 +144,7 @@ export default {
           if (width > 480) width = 480;
           data.leftcontentWidth = width;
         };
-        document.onmouseup = function() {
+        document.onmouseup = function () {
           document.onmousemove = null;
           document.onmouseup = null;
           if (data.leftcontentWidth > 350 && data.leftcontentWidth < 370) {
@@ -170,7 +171,7 @@ export default {
 .Resizer {
   position: relative;
   background: rgba(38, 22, 22, 0.1);
-  /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.1), 0 0 4px rgba(0, 0, 0, 0.06);*/
+
   z-index: 101;
 }
 
@@ -216,13 +217,13 @@ export default {
 }
 
 #leftcontent {
-  flex-grow: 0; 
-  flex-shrink: 0; 
+  flex-grow: 0;
+  flex-shrink: 0;
   position: relative;
   outline: none;
   width: 300px;
   height: 100vh;
-  /*background: #f9f8f8;*/
+
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -230,7 +231,7 @@ export default {
 #rightcontent {
   height: 100vh;
   min-width: 600px;
-  flex: 1 1 0%; 
+  flex: 1 1 0%;
   position: relative;
   background: #fff;
   overflow: auto;

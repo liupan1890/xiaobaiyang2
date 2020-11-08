@@ -48,10 +48,10 @@
                   rules: [
                     {
                       required: true,
-                      message: '请输入登录密码(长6-14位)',
+                      message: '请输入登录密码(长6-50位)',
                       whitespace: true,
                       min: 6,
-                      max: 14,
+                      max: 50,
                     },
                   ],
                 },
@@ -74,10 +74,10 @@
                   rules: [
                     {
                       required: true,
-                      message: '请输入登录密码(长6-14位)',
+                      message: '请输入登录密码(长6-50位)',
                       whitespace: true,
                       min: 6,
-                      max: 14,
+                      max: 50,
                     },
                   ],
                 },
@@ -162,7 +162,7 @@ export default {
       this.activeKey = key;
       this.useraddError = "";
     },
-    handleUserAddCancel: function() {
+        handleUserAddCancel: function() {
       this.$store.commit("UI/mShowModal", { name: "", data: {} });
       this.modalLoading = false;
       this.useraddError = "";
@@ -170,7 +170,7 @@ export default {
       this.form2.resetFields();
       this.form3.resetFields();
     },
-    handleUserAddLogin: function() {
+        handleUserAddLogin: function() {
       if (this.activeKey == "1") {
         this.form1.validateFields((err, values) => {
           if (!err) {
@@ -183,8 +183,8 @@ export default {
                 password: values.phonepassword,
               })
               .then((data) => {
-                if (data.code == 0) {
-                  this.handleUserAddCancel();
+                                if (data.code == 0) {
+                                    this.handleUserAddCancel();
                 } else {
                   this.modalLoading = false;
                   this.useraddError = data.message;
@@ -204,9 +204,8 @@ export default {
                 password: values.userpassword,
               })
               .then((data) => {
-                if (data.code == 0) {
-                  this.$store.dispatch("User/aSelectUser", data.userid);
-                  this.handleUserAddCancel();
+                                if (data.code == 0) {
+                                    this.handleUserAddCancel();
                 } else {
                   this.modalLoading = false;
                   this.useraddError = data.message;
@@ -219,7 +218,7 @@ export default {
         this.form3.validateFields((err, values) => {
           if (!err) {
             if (values.cookie.indexOf("token=") < 0 || values.cookie.indexOf("token.sig=") < 0) {
-              this.useraddError = "token=......; token.sig=......";
+                            this.useraddError = "token=......; token.sig=......";
               return;
             }
             this.useraddError = "";
@@ -231,8 +230,8 @@ export default {
                 cookie: values.cookie,
               })
               .then((data) => {
-                if (data.code == 0) {
-                  this.handleUserAddCancel();
+                                if (data.code == 0) {
+                                    this.handleUserAddCancel();
                 } else {
                   this.modalLoading = false;
                   this.useraddError = data.message;

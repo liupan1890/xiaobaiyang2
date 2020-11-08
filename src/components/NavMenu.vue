@@ -29,25 +29,28 @@
 <script>
 export default {
   name: "NavMenu",
-  data: function() {
+  data: function () {
     return {};
   },
   computed: {
-    checkNavSelectedRss: function() {
+    checkNavSelectedRss: function () {
       return this.$store.state.UI.pagename == "/rss";
     },
-    checkNavSelected6pan: function() {
+    checkNavSelected6pan: function () {
       return this.$store.state.UI.pagename == "/6pan";
     },
-    checkNavSelectedDown: function() {
+    checkNavSelectedDown: function () {
       return this.$store.state.UI.pagename == "/down";
     },
   },
   methods: {
-    handleNav: function(pagename) {
+    handleNav: function (pagename) {
       this.$store.commit("UI/mGotoPage", pagename);
+      if (pagename == "/down") {
+        this.$store.dispatch("Down/aRefreshDown", "refresh");
+      }
     },
-    handleSetting: function() {
+    handleSetting: function () {
       this.$store.commit("UI/mShowModal", { name: "setting", data: {} });
     },
   },
@@ -62,9 +65,8 @@ export default {
   justify-content: space-between !important;
   height: 40px;
   padding: 0 17px;
-  flex-grow: 0; 
-  flex-shrink: 0; 
-  /*border-bottom: 1px solid rgba(38, 22, 22, 0.1);*/
+  flex-grow: 0;
+  flex-shrink: 0;
 }
 .navMenuItem {
   display: flex !important;

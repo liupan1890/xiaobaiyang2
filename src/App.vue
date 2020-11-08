@@ -22,7 +22,8 @@
     <ShowImageModal key="ShowImageModal" />
     <ShowTxtModal key="ShowTxtModal" />
     <CopytoModal key="CopytoModal" />
-    <DownloadModal key="DownloadModal" />
+    <DownFileModal key="DownFileModal" />
+    <UploadModal key="UploadModal" />
     <LiXianModal key="LiXianModal" />
     <RenameModal key="RenameModal" />
     <RenameMultiModal key="RenameMultiModal" />
@@ -43,7 +44,8 @@ import AddDirModal from "./components/modal/AddDirModal.vue";
 import ShowImageModal from "./components/modal/ShowImageModal.vue";
 import ShowTxtModal from "./components/modal/ShowTxtModal.vue";
 import CopytoModal from "./components/modal/CopytoModal.vue";
-import DownloadModal from "./components/modal/DownloadModal.vue";
+import DownFileModal from "./components/modal/DownFileModal.vue";
+import UploadModal from "./components/modal/UploadModal.vue";
 import LiXianModal from "./components/modal/LiXianModal.vue";
 import RenameModal from "./components/modal/RenameModal.vue";
 import RenameMultiModal from "./components/modal/RenameMultiModal.vue";
@@ -60,7 +62,7 @@ import RightRss from "./components/RightRss.vue";
 
 export default {
   name: "App",
-  data: function() {
+  data: function () {
     return {};
   },
   components: {
@@ -74,7 +76,8 @@ export default {
     ShowImageModal,
     ShowTxtModal,
     CopytoModal,
-    DownloadModal,
+    DownFileModal,
+    UploadModal,
     LiXianModal,
     RenameModal,
     RenameMultiModal,
@@ -108,7 +111,6 @@ export default {
   height: 100vh;
   position: absolute;
   background: #f9f8f8;
-  /*border-right: dashed 1px rgba(38, 22, 22, 0.1);*/
 }
 .right {
   top: 0px;
@@ -123,7 +125,6 @@ export default {
   flex-direction: column;
   overflow: hidden;
   color: #202d40;
-  /*min-width: 1041px;*/
 }
 </style>
 
@@ -136,7 +137,6 @@ export default {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  /*  border-right:dashed 1px  rgba(38, 22, 22, 0.1);*/
 }
 .desc {
   font-size: 14px;
@@ -147,8 +147,8 @@ export default {
   border-radius: 3px;
   margin-right: 10px;
   display: inline-block;
-  flex-grow: 0; 
-  flex-shrink: 0; 
+  flex-grow: 0;
+  flex-shrink: 0;
 }
 .desc > i {
   margin-right: 2px;

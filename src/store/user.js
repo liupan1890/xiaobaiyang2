@@ -72,7 +72,6 @@ const moduleUser = {
         aLoadUserList(context, userkey) {
 
             CALLAPI({ cmd: "LoadUserList" }).then(resp => {
-
                 if (resp.code == 0) {
                     context.commit('mLoadUserList', resp.userlist);
                 }

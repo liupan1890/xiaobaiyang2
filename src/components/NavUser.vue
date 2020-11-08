@@ -1,9 +1,7 @@
 <template>
   <div class="navUser">
     <a-spin :spinning="loading">
-      <div class="icon6">
-        6
-      </div>
+      <div class="icon6">6</div>
     </a-spin>
     <div class="user">
       <a-dropdown>
@@ -15,7 +13,7 @@
           <template v-for="item in userList">
             <a-menu-item :key="item.key">
               <a-icon :type="item.isvip ? 'crown' : 'user'" />
-              <span style="padding-right:12px;">{{ item.username }}</span>
+              <span style="padding-right: 12px">{{ item.username }}</span>
               <a-icon v-if="item.key == userSelected.key" type="check" />
             </a-menu-item>
           </template>
@@ -47,24 +45,24 @@
 <script>
 export default {
   name: "NavUser",
-  data: function() {
+  data: function () {
     return {};
   },
   components: {},
 
   computed: {
-    loading: function() {
+    loading: function () {
       return this.$store.state.UI.loading;
     },
-    userSelected: function() {
+    userSelected: function () {
       return this.$store.state.User.userSelected;
     },
-    userList: function() {
+    userList: function () {
       return this.$store.state.User.userList;
     },
   },
   methods: {
-    handleNavUserClick: function(e) {
+    handleNavUserClick: function (e) {
       let key = e.key;
       if (key == "add") {
         this.$store.commit("UI/mShowModal", { name: "adduser", data: {} });
@@ -72,7 +70,7 @@ export default {
         this.$store.dispatch("User/aSelectUser", key);
       }
     },
-    handleEditUser: function() {
+    handleEditUser: function () {
       let key = this.userSelected.key;
       if (key == "add") {
         this.$message.error("请先登录一个6盘账号");
@@ -81,7 +79,7 @@ export default {
       this.$store.dispatch("User/aRefreshUser", key);
       this.$store.commit("UI/mShowModal", { name: "edituser", data: { key } });
     },
-    handleDeleteUser: function() {
+    handleDeleteUser: function () {
       let key = this.userSelected.key;
       if (key == "add") {
         this.$message.error("请先登录一个6盘账号");
@@ -121,8 +119,8 @@ export default {
   position: relative;
 }
 .navUser .user {
-  flex-grow: 0; 
-  flex-shrink: 1; 
+  flex-grow: 0;
+  flex-shrink: 1;
 
   margin-left: 12px;
   overflow: hidden;
@@ -152,7 +150,7 @@ export default {
   font-size: 16px;
 }
 .navUser .sep {
-  flex: 1 1 0%; 
+  flex: 1 1 0%;
 }
 .navUser:hover {
   background: #eeecec;
