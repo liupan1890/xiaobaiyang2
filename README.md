@@ -28,6 +28,8 @@ linux需要自己安装一次mpv播放器，才可以视频在线预览<br />
 
 ![https://ae03.alicdn.com/kf/Hcf945f61f47741ec847814d8ec05b9d56.jpg](https://ae03.alicdn.com/kf/Hcf945f61f47741ec847814d8ec05b9d56.jpg)
 <br />
+[运行截图 https://ae03.alicdn.com/kf/Hcf945f61f47741ec847814d8ec05b9d56.jpg](https://ae03.alicdn.com/kf/Hcf945f61f47741ec847814d8ec05b9d56.jpg)
+<br />
 ### 功能介绍
 
 6盘官方网页版功能已基本覆盖。下面是小白羊第二版特色功能<br />
