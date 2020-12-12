@@ -27,7 +27,6 @@ linux需要自己安装一次mpv播放器，才可以视频在线预览<br />
 注2：mac对未签名的程序权限限制较严格，有时会遇到因权限限制导致的白屏（6panserver这个文件没正常运行），此问题我还在研究怎么解决<br />
 
 ![https://ae03.alicdn.com/kf/Hcf945f61f47741ec847814d8ec05b9d56.jpg](https://ae03.alicdn.com/kf/Hcf945f61f47741ec847814d8ec05b9d56.jpg)
-![demo1112.png](https://ae02.alicdn.com/kf/Hba2a6dfe4ffb4d06b58c4b2d00c997a9k.jpg)
 <br />
 ### 功能介绍
 
