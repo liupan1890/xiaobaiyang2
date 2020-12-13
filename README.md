@@ -2,11 +2,16 @@
 
 开饭中，开源代码已上传(2.2.0版代码将于2周后稳定版发布时一起上传)  
 
-[12月12日18点 https://wws.lanzous.com/b01npsg8h](https://wws.lanzous.com/b01npsg8h)  仅供尝鲜,此版本不兼容旧版数据(2.1.1)
+[12月12日22点30 https://wws.lanzous.com/b01npsg8h](https://wws.lanzous.com/b01npsg8h)  仅供尝鲜,此版本不兼容旧版数据(2.1.1)
 
 [11月8日20点00 https://wws.lanzous.com/b01nqc4gd](https://wws.lanzous.com/b01nqc4gd)  旧版链接备用(2.1.1)  
 
 win、linux、mac 均已发布，再接下来要整RSS订阅功能，这是个大项目了。。。。  
+
+#### 2020/12/13
+1. 修正Windows双击托盘图标未弹出主界面的BUG
+2. 修正无UI远程管理不能设置下载位置的BUG
+3. Add在网盘文件列表里，按住Shift键批量选择文件功能
 
 ### 安装说明
 
