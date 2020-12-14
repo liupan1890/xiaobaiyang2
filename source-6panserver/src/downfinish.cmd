@@ -1,0 +1,1 @@
+echo %date% %time% GID=[%1]FileNum=[%2]FilePath=[%3]>>1.txt

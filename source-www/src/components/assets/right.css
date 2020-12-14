@@ -1,0 +1,127 @@
+.right {
+    width: 100%;
+    height: 100%;
+    transition: left 0.3s ease-in-out 0s;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    color: #202d40;
+    padding: 16px 6px 16px 0;
+}
+
+.rightHeadRow {
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 100%;
+    overflow: hidden;
+    height: 40px;
+    padding-left: 10px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.rightHeadRow .ant-btn {
+    height: 24px;
+    line-height: 22px;
+    padding: 0 8px;
+    border: none;
+    color: #df5659;
+    font-size: 14px;
+    cursor: pointer;
+    background-color: rgba(207, 86, 89, 0.1);
+    margin-right: 12px;
+}
+
+.rightHeadRow .ant-btn>span {
+    position: relative;
+    border: 0;
+    height: 22px;
+    line-height: 22px;
+}
+
+.rightHeadRow .ant-btn svg>path {
+    color: #df5659;
+    fill: #df5659;
+}
+
+.rightHeadRow .ant-btn.borderbtn {
+    background-color: transparent;
+    border: 1px solid rgba(207, 86, 89, 0.4);
+}
+
+.rightHeadRow .ant-btn:hover,
+.rightHeadRow .ant-btn:active {
+    color: #df5659;
+    background-color: rgba(207, 86, 89, 0.2);
+}
+
+.rightHeadRow .ant-input-search {
+    margin-right: 12px;
+    height: 24px;
+    line-height: 22px;
+    padding: 0 0 0 8px;
+    font-size: 14px;
+    border: 1px solid rgba(207, 86, 89, 0.4);
+}
+
+.rightHeadRow .ant-input-suffix,
+.rightHeadRow .iconfont {
+    right: 2px;
+}
+
+.rightHeadRow .ant-input-suffix .anticon {
+    display: inline-block;
+    padding: 5px 8px;
+}
+
+.rightHeadRow .ant-input-suffix svg>path,
+.rightHeadRow .ant-btn .iconfont {
+    color: #df5659;
+    fill: #df5659;
+}
+
+.texttip {
+    font-size: 12px;
+    color: rgba(49, 70, 89, 0.6);
+}
+
+.texttip>a {
+    margin-left: 4px;
+}
+
+.texttip>a:hover {
+    text-decoration: underline;
+}
+
+
+/**vxe-list */
+
+.vxe-list {
+    position: relative;
+    display: block;
+    padding: 0;
+}
+
+.vxe-list .vxe-list--virtual-wrapper {
+    position: relative;
+    overflow: auto;
+}
+
+.vxe-list .vxe-list--y-space {
+    width: 0;
+    float: left;
+}
+
+.vxe-list .vxe-list--virtual-wrapper,
+.vxe-list .vxe-list--body {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    outline: 0;
+}
+
+.vxe-list--virtual-wrapper {
+    height: 100px;
+}
