@@ -34,7 +34,9 @@ win、linux、mac 均已发布，再接下来要整RSS订阅功能，这是个�
 
 ##### 1. Windows  
 下载 `6盘小白羊版win64.7z` 解压缩，双击运行 `6盘小白羊版.exe` 即可<br />
-已内置mpv播放器可以直接在线预览视频
+已内置mpv播放器可以直接在线预览视频<br />
+windows10可能会遇到Defender报毒，需要将小白羊的文件夹添加到排除里，参阅：<br />
+ https://blog.csdn.net/qq_43453731/article/details/104722165
 ##### 2. Mac os  
 下载 `6盘小白羊版mac64.7z` 解压缩，双击运行 `6盘小白羊版.app` 即可<br />
 已内置mpv播放器可以直接在线预览视频
