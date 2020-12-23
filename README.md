@@ -2,7 +2,7 @@
 
 开饭中，最新2.2.0版全部开源代码已上传  
 
-[12月22日24点  v2.2.2  https://wws.lanzous.com/b01npsg8h](https://wws.lanzous.com/b01npsg8h)  
+[12月23日10点  v2.2.2  https://wws.lanzous.com/b01npsg8h](https://wws.lanzous.com/b01npsg8h)  
 
 [11月8日 v2.1.1 https://wws.lanzous.com/b01nqc4gd](https://wws.lanzous.com/b01nqc4gd)  旧版链接备用
 
