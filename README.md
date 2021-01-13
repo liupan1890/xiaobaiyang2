@@ -54,9 +54,9 @@ linux需要自己安装一次mpv播放器，才可以视频在线预览<br />
 注1：mac如果提示启动被阻止，需要在‘系统偏好设置’--‘安全性与隐私’--‘允许从以下位置下载的App’--‘仍要打开’<br />
 注2：mac有时会遇到由于程序未签名导致的白屏（6panserver这个文件没正常运行），此问题我还在研究怎么解决<br />
 
-![https://ae03.alicdn.com/kf/Hcf945f61f47741ec847814d8ec05b9d56.jpg](https://ae03.alicdn.com/kf/Hcf945f61f47741ec847814d8ec05b9d56.jpg)
+![https://ae03.alicdn.com/kf/Hcf945f61f47741ec847814d8ec05b9d56.jpg](https://img13.360buyimg.com/ddimg/jfs/t1/163140/31/2338/2632698/5ffe922eE612b56ad/c524b567c570f021.gif)
 <br /><br />
-[运行截图 点击查看 https://ae03.alicdn.com/kf/Hcf945f61f47741ec847814d8ec05b9d56.jpg](https://ae03.alicdn.com/kf/Hcf945f61f47741ec847814d8ec05b9d56.jpg)
+[运行截图 点击查看 https://ae03.alicdn.com/kf/Hcf945f61f47741ec847814d8ec05b9d56.jpg](https://img13.360buyimg.com/ddimg/jfs/t1/163140/31/2338/2632698/5ffe922eE612b56ad/c524b567c570f021.gif)
 <br />
 
 ### 版本升级说明
