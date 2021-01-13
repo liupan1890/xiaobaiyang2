@@ -2,23 +2,20 @@
 
 开饭中，最新2.2.0版全部开源代码已上传  
 
-[12月23日10点  v2.2.2  https://wws.lanzous.com/b01npsg8h](https://wws.lanzous.com/b01npsg8h)  
+[01月13日13点  v2.2.2  https://wws.lanzous.com/b01npsg8h](https://wws.lanzous.com/b01npsg8h)  
 
-[11月8日 v2.1.1 https://wws.lanzous.com/b01nqc4gd](https://wws.lanzous.com/b01nqc4gd)  旧版链接备用
+[12月23日 https://wws.lanzous.com/b01nqc4gd](https://wws.lanzous.com/b01nqc4gd)  旧版链接备用
 
 win、linux、mac 均已发布，再接下来要整RSS订阅功能，这是个大项目了。。。。  
 
-今天抽空从云盘精灵，BTSOW，磁力狗同步了8万条链接，Rss搜索结果多了一点了
-
-#### 2020/12/22
+#### 2021/01/13
 ```
-1. Fix MacOS点击程序坞内图标不显示窗口的BUG
-2. Fix 优化spinning的delay减少抖动
-3. Fix 优化图片预览的左右按钮大小，避免图片太大时不易按到
-4. Fix 上传、下载时 全部暂停按钮 只暂停执行中的任务的BUG
-5. Fix 6盘离线解析失败时返回的错误信息不自动刷新的BUG
-6. Add 夜间模式
-7. Add 聚合搜索开始小数据公测
+1. Fix Mac上断点续传失效的BUG
+2. Fix Mac上下载到移动硬盘出错的BUG
+3. Add 文件线程数增加6线程和8线程选项
+4. Add 文件下载完成后校验选项
+5. Add 增加聚合搜索的数据量（10W）
+6. Ver 更新部分依赖组件到最新版
 ```
 ### 功能介绍
 
