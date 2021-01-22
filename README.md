@@ -2,21 +2,23 @@
 
 开饭中，最新2.2.0版全部开源代码已上传  
 
-[01月13日13点  v2.2.2  https://wws.lanzous.com/b01npsg8h](https://wws.lanzous.com/b01npsg8h)  
+[1月22日 v2.2.3  https://wws.lanzous.com/b01npsg8h](https://wws.lanzous.com/b01npsg8h)  
 
-[12月23日 https://wws.lanzous.com/b01nqc4gd](https://wws.lanzous.com/b01nqc4gd)  旧版链接备用
+[1月13日 v2.2.2 https://wws.lanzous.com/b01nqc4gd](https://wws.lanzous.com/b01nqc4gd)  旧版链接备用
 
 win、linux、mac 均已发布，再接下来要整RSS订阅功能，这是个大项目了。。。。  
 
-#### 2021/01/13
+#### 2021/01/22
 ```
-1. Fix Mac上断点续传失效的BUG
-2. Fix Mac上下载到移动硬盘出错的BUG
-3. Fix 调整新增下载任务添加到下载队列尾部
-4. Add 文件线程数增加6线程和8线程选项
-5. Add 文件下载完成后校验选项
-6. Add 增加聚合搜索的数据量(10W)
-7. Ver 更新部分依赖组件到最新版最新版
+1. Add 增加aria下载引擎，下载速度更快更稳定（优化免费账号的下载体验）
+2. Add 增加删除任务时自动清理临时文件功能
+3. Add 增加删除账号时的二次确认提示功能
+4. Add 增加全局下载速度限速功能
+5. Add 增加粘贴磁力链接时只有特征码时自动补全磁力链接的功能
+6. Fix 修正路径中有特殊字符时下载失败的BUG
+7. Fix 修正重启后下载列表/上传列表加载顺序不正确的BUG
+8. Fix 修正登录状态失效后，继续下载时可能会导致6panserver崩溃的BUG
+9. Fix 修正对小写base32格式的磁力链接的支持BUG
 ```
 ### 功能介绍
 
