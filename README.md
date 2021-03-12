@@ -1,5 +1,8 @@
 # 6盘小白羊 第二版
 
+### 3月12日上线了CD包音乐网镜像  
+[点我打开！ 点我打开！ 点我打开！](http://121.5.144.84/https/www.cdbao.net)  
+
 开饭中，最新2.2.0版全部开源代码已上传  
 
 [下载地址 1月22日 v2.2.3  https://wws.lanzous.com/b01npsg8h](https://wws.lanzous.com/b01npsg8h)  
