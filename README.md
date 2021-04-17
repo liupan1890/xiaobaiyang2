@@ -5,9 +5,9 @@
 
 开饭中，最新2.2.0版全部开源代码已上传  
 
-[下载地址 1月22日 v2.2.3  https://wws.lanzous.com/b01npsg8h](https://wws.lanzous.com/b01npsg8h)  
+[下载地址 4月10日 v2.2.3  https://wws.lanzous.com/b01npsg8h](https://wws.lanzous.com/b01npsg8h)  
 
-[下载地址 1月13日 v2.2.2 https://wws.lanzous.com/b01nqc4gd](https://wws.lanzous.com/b01nqc4gd)  旧版链接备用
+[下载地址 2月23日 v2.2.2 https://wws.lanzous.com/b01nqc4gd](https://wws.lanzous.com/b01nqc4gd)  旧版链接备用
 
 win、linux、mac 均已发布，再接下来要整RSS订阅功能，这是个大项目了。。。。  
 
