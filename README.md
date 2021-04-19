@@ -1,5 +1,7 @@
 # 6盘小白羊 第二版
 
+<img height="200px" alt="liupan1890's Top Langs" src="https://github-readme-stats.vercel.app/api/top-langs/?username=liupan1890&hide_border=true" /> <img height="200px" alt="liupan1890's Github Stats" src="https://github-readme-stats.vercel.app/api?username=liupan1890&show_icons=true&hide_border=true" />
+
 ### 3月12日上线了CD包音乐网镜像  
 [点我打开！ 点我打开！ 点我打开！](http://121.5.144.84/https/www.cdbao.net)  
 
