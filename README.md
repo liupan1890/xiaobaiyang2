@@ -1,8 +1,8 @@
 # 6盘小白羊 第二版
 
 <img height="200px" alt="liupan1890's Top Langs" src="https://github-readme-stats.vercel.app/api/top-langs/?username=liupan1890&hide_border=true" /> <img height="200px" alt="liupan1890's Github Stats" src="https://github-readme-stats.vercel.app/api?username=liupan1890&show_icons=true&hide_border=true" />
-### 关于6盘近期无法使用
-[6盘官方发布的通知](https://0e0e083932c23d0f.kf5.com/hc/community/question/1027406/)
+### 我的新项目阿里云盘离线版
+[阿里云盘离线版](https://github.com/liupan1890/aliyunpan)
 
 ### 3月12日上线了CD包音乐网镜像  
 [点我打开！ 点我打开！ 点我打开！](http://121.5.144.84/https/www.cdbao.net)  
