@@ -1,8 +1,8 @@
 # 6盘小白羊 第二版
 
-<img height="200px" alt="liupan1890's Top Langs" src="https://github-readme-stats.vercel.app/api/top-langs/?username=liupan1890&hide_border=true" /> <img height="200px" alt="liupan1890's Github Stats" src="https://github-readme-stats.vercel.app/api?username=liupan1890&show_icons=true&hide_border=true" />
+
 ### 我的新项目阿里云盘离线版
-[阿里云盘离线版](https://github.com/liupan1890/aliyunpan)
+[阿里云盘离线版](https://github.com/liupan1890/aliyunpan) 已经上传了第一个开发版本欢迎测试
 
 ### 3月12日上线了CD包音乐网镜像  
 [点我打开！ 点我打开！ 点我打开！](http://121.5.144.84/https/www.cdbao.net)  
@@ -89,3 +89,5 @@ linux需要自己安装一次mpv播放器，才可以视频在线预览<br />
 1.6盘(6pan.cn)是一个网盘，其付费用户(10元每月)每天可以离线下载100个任务（电驴、磁力、BT、百度）<br />
 2.小白羊版只是美化UI，你离线是保存到6盘下载文件是从6盘下，所有服务、内容均由6盘提供请正确认知<br />
 3.小白羊版和6盘官方无任何关联，由我个人开发，不能代表6盘官方，但会长期维护<br />
+
+<img height="200px" alt="liupan1890's Top Langs" src="https://github-readme-stats.vercel.app/api/top-langs/?username=liupan1890&hide_border=true" /> <img height="200px" alt="liupan1890's Github Stats" src="https://github-readme-stats.vercel.app/api?username=liupan1890&show_icons=true&hide_border=true" />
